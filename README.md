@@ -1,14 +1,14 @@
-# vscode-btex README
+# vscode-btex
 
-(...)
+VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
 ## Features
 
 - [ ] Syntax highlights.
-- [ ] Compiles the bTeX file and show the preview either on save.
+- [ ] Compiles the bTeX file and show the preview on save.
   - [X] Displays converted result assuming the server is running.
   - [ ] Cache KaTeX modules.
-  - [ ] Run node.js module process to start up bTeX engine automatically (or disable that as a server).
+  - [ ] Run node.js module process to start up bTeX engine automatically.
   - [ ] Display HTML properly, customize style options.
   - [ ] Keep track of processes and panels, so that they are unique.
   - [ ] Handle errors.
@@ -16,18 +16,13 @@
 
 ## Requirements
 
-- Install bTeX and TikZ2svg. (...)
+- Install bTeX and tikz2svg. Currently bTeX must be up and running on port 7200.
+  You can optionally start up tikz2svg on port 9292 to have full support for
+  tikz format.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+(...)
 
 ## Known Issues
 
