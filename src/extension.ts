@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as http from 'http';
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log('bTeX: Active.');  // TODO log context
+    console.log('bTeX: Active.');
     let disposable = vscode.commands.registerCommand('vscode-btex.compile',
         () => { compile(context.extensionPath); });
     context.subscriptions.push(disposable);
@@ -21,14 +21,14 @@ function compile(extensionPath: string) {
         path: '/',
         method: 'POST',
         headers: {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'Content-Type': 'application/json'
         }
     },
-        function (response) {
+        function (response) {  // Collects the response
             var data = '';
             response.on('data', function (chunk) { data += chunk; });
             response.on('end', function () {
-                // console.log(data);
                 render(extensionPath, JSON.parse(data));
             });
         });
@@ -41,10 +41,16 @@ function render(extensionPath: string, data: { html: string; }) {
         'bTeXpreview',
         'Preview bTeX',
         vscode.ViewColumn.Beside,
-        {}
+        {
+            localResourceRoots: [
+                vscode.Uri.file(path.join(extensionPath, 'resources'))
+            ]
+        }
     );
-    const csssrc = vscode.Uri.file(
-        path.join(extensionPath, 'resources', 'base.css')
+    const csssrc = panel.webview.asWebviewUri(
+        vscode.Uri.file(
+            path.join(extensionPath, 'resources', 'base.css')
+        )
     );
 
     panel.webview.html = `<!DOCTYPE html>
@@ -54,11 +60,9 @@ function render(extensionPath: string, data: { html: string; }) {
     <link rel="stylesheet" href="${csssrc}">
     <title>bTeX Preview</title>
 </head>
-
 <body>
 ${data.html}
-</body>
-    `;
+</body>`;
 }
 
 // this method is called when your extension is deactivated

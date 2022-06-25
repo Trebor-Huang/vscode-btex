@@ -1,30 +1,5 @@
-html {
-    background-color: #e4e6e8;
-    font-size: 18px;
-}
-
-body {
-    max-width: 1000px;
-    margin: 0 20px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, .1);
-}
-
 .katex {
     font-size: 1.1em;
-}
-
-p,
-.p,
-table.list {
-    margin: 0 0 18px 0;
-}
-
-.block {
-    padding: 10px 20px;
-    margin: 0 -20px 18px -20px;
-    background-color: #f0f1f3;
 }
 
 span.katex-display {
