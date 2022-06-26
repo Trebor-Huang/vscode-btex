@@ -13,8 +13,8 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
   - [ ] Start up bTeX engine automatically.
   - [X] Format wiki-style links. (They don't actually link anywhere, of course.)
   - [ ] Automatic bidirectional scrolling sync?
-- [ ] Automatic installation. (Might not do.)
-- [ ] Customize style options. (Might not do.)
+- [ ] ~~Automatic installation.~~
+- [ ] ~~Customize style options.~~
 - [ ] Exports bTeX to html. (Does not look well without fitting a lot of resources in.)
 
 ## Requirements
@@ -26,5 +26,7 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 (...)
 
 ## Known Issues
+
+Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either.
 
 ## Release Notes
