@@ -7,11 +7,12 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 - [ ] Syntax highlights.
 - [ ] Compiles the bTeX file and show the preview on save.
   - [X] Displays converted result assuming the server is running.
-  - [ ] Cache KaTeX modules.
+  - [ ] Cache KaTeX modules and related fonts.
   - [ ] Run node.js module process to start up bTeX engine automatically.
-  - [ ] Display HTML properly, customize style options.
+  - [ ] Customize style options.
   - [ ] Keep track of processes and panels, so that they are unique.
   - [ ] Handle errors.
+  - [ ] Format wiki-style links.
 - [ ] Exports bTeX to html.
 
 ## Requirements
