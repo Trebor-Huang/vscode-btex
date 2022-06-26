@@ -53,15 +53,57 @@ class PanelManager {
     }
 
     render(data: { html: string; }): void {
-        const csssrc = this.panel.webview.asWebviewUri(
+        let auvu = (name: string) => this.panel.webview.asWebviewUri(
             vscode.Uri.file(
-                path.join(extensionPath, 'resources', 'banana.css')
+                path.join(extensionPath, 'resources', name)
             )
-        );
+        );  // shorthand for asWebviewUri.
+        const csssrc = auvu('banana.css');
+        // Collect the local fonts.
+        const src = `
+@font-face {
+    font-family: 'Cascadia Code';
+    src: url(${auvu('CascadiaCode.woff2')}) format('woff2'), url(${auvu('CascadiaCode.woff')}) format('woff')
+}
+
+@font-face {
+    font-family: Lato_Bbb;
+    src: url(${auvu('LatoBbb.woff2')}) format('woff2'), url(${auvu('LatoBbb.woff')}) format('woff')
+}
+
+@font-face {
+    font-family: PunctCJK;
+    src: url(${auvu('PunctCJK.woff2')}) format('woff2'), url(${auvu('PunctCJK.woff')}) format('woff');
+    unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-style: italic;
+    src: url(${auvu('PunctCJK-Italic.woff2')}) format('woff2'), url(${auvu('PunctCJK-Italic.woff')}) format('woff');
+    unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-weight: bold;
+    src: url(${auvu('PunctCJK-Bold.woff2')}) format('woff2'), url(${auvu('PunctCJK-Bold.woff')}) format('woff');
+    unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
+}
+
+@font-face {
+    font-family: PunctCJK;
+    font-weight: bold;
+    font-style: italic;
+    src: url(${auvu('PunctCJK-BoldItalic.woff2')}) format('woff2'), url(${auvu('PunctCJK-BoldItalic.woff')}) format('woff');
+    unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
+}
+`;
         // TODO we will make the template better once we get to styles
         this.panel.webview.html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
+    <style>${src}</style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
     <link rel="stylesheet" href="${csssrc}">
     <title>bTeX Preview</title>
