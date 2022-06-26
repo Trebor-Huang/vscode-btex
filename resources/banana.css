@@ -54,23 +54,24 @@ main {
 
 .b-page-body a[href],
 .b-page-body btex-link {
-    color: #1088c8;
+    color: var(--vscode-textLink-foreground);
     text-decoration: none
 }
 
 .b-page-body a[href]:hover,
 .b-page-body a[href]:focus {
+    color: var(--vscode-textLink-activeForeground);
     text-decoration: none;
     outline: none
 }
 
 .b-page-body a[href].external {
-    color: #1088c8
+    color: var(--vscode-textLink-foreground);
 }
 
 .b-page-body a[href]:visited,
 .b-page-body a[href].external:visited {
-    color: #1088c8
+    color: var(--vscode-textLink-foreground);
 }
 
 .b-page-body a[href].external::after {
@@ -97,7 +98,8 @@ main {
 .b-page-body btex-link:focus,
 .b-page-body .btex-output a[href]:not(.image):hover,
 .b-page-body .btex-output a[href]:not(.image):focus {
-    border-bottom-color: #1088c850
+    /* border-bottom-color: #1088c850 */
+    border-bottom-color: var(--vscode-selection-background);
 }
 
 .b-page-body h2 {
@@ -111,7 +113,7 @@ main {
     margin-right: .75em;
     font-weight: bold;
     padding: 4px 6px;
-    border-bottom: 4px solid #ffd000
+    border-bottom: 4px solid var(--vscode-focusBorder);
 }
 
 .b-page-body h3:not(#p-cactions-label) {
