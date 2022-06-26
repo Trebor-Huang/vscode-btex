@@ -12,7 +12,7 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
   - [X] Keep track of panels, so that they are unique.
   - [ ] Start up bTeX engine automatically.
   - [X] Format wiki-style links. (They don't actually link anywhere, of course.)
-  - [ ] Automatic bidirectional scrolling sync?
+  - [ ] ~~Automatic bidirectional scrolling sync~~
 - [ ] ~~Automatic installation.~~
 - [ ] ~~Customize style options.~~
 - [ ] Exports bTeX to html. (Does not look well without fitting a lot of resources in.)

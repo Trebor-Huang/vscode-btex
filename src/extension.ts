@@ -113,13 +113,26 @@ class PanelManager {
     <title>bTeX Preview</title>
 </head>
 <body>
+    <div id="render-content" class="b-page-body">
+        <div class="loading-prompt">
+            Loading...
+        </div>
+    </div>
     <script>
-        window.addEventListener('message', (event) => {
+        const vscode = acquireVsCodeApi();
+        function updatebTeX(data) {
             const bdy = document.getElementById("render-content");
-            bdy.innerHTML = event.data.html;
+            bdy.innerHTML = data.html;
+            vscode.setState(data);
+        }
+        const previousState = vscode.getState();
+        if (previousState) {
+            updatebTeX(previousState);
+        }
+        window.addEventListener('message', event => {
+            updatebTeX(event.data);
         });
     </script>
-    <div id="render-content" class="b-page-body"/>
 </body>`;
         this.compile();  // Update content
     }
