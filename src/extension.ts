@@ -2,14 +2,14 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as http from 'http';
 
-var saveListener: vscode.Disposable, closeListener : vscode.Disposable;
-var extensionPath : string;
+var saveListener: vscode.Disposable, closeListener: vscode.Disposable;
+var extensionPath: string;
 
 class PanelManager {
     readonly doc: vscode.TextDocument;
     readonly panel: vscode.WebviewPanel;
 
-    constructor (doc: vscode.TextDocument) {
+    constructor(doc: vscode.TextDocument) {
         this.doc = doc;
         // TODO: maybe set back the focus? which is better?
         this.panel = vscode.window.createWebviewPanel(
@@ -22,7 +22,12 @@ class PanelManager {
                 ]
             }
         );
-        // TODO this.panel.onDidDispose
+        this.panel.onDidDispose(
+            () => {
+                let i = openPanels.indexOf(this);
+                if (i >= 0) { openPanels.splice(i, 1); }
+            }
+        );
     }
 
     compile(): void {
@@ -43,7 +48,7 @@ class PanelManager {
                 response.on('end', () => this.render(JSON.parse(data)));
                 response.on('error', (err) => vscode.window.showErrorMessage(err.message));
             });
-        request.write(JSON.stringify({code: text}));
+        request.write(JSON.stringify({ code: text }));
         request.end();
     }
 
@@ -72,7 +77,7 @@ ${data.html}
     }
 }
 
-var openPanels : PanelManager[] = [];
+var openPanels: PanelManager[] = [];
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('bTeX: Active.');
@@ -89,6 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
             for (const pm of openPanels) {
                 if (doc === pm.doc) {
                     pm.panel.reveal();
+                    return;
                 }
             }
             // Spawn new panel
