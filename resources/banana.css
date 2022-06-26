@@ -52,7 +52,8 @@ main {
     display: none !important
 }
 
-.b-page-body a[href] {
+.b-page-body a[href],
+.b-page-body btex-link {
     color: #1088c8;
     text-decoration: none
 }
@@ -83,6 +84,8 @@ main {
     background-repeat: no-repeat
 }
 
+.b-page-body btex-link:hover,
+.b-page-body btex-link:focus,
 .b-page-body .btex-output a[href]:not(.image) {
     line-height: 1.2;
     border-bottom: 2px solid transparent;
@@ -90,19 +93,11 @@ main {
     border-bottom-color: transparent
 }
 
+.b-page-body btex-link:hover,
+.b-page-body btex-link:focus,
 .b-page-body .btex-output a[href]:not(.image):hover,
 .b-page-body .btex-output a[href]:not(.image):focus {
     border-bottom-color: #1088c850
-}
-
-/* TODO: render new link this way */
-.b-page-body a[href].new {
-    color: #80b700 !important
-}
-
-.b-page-body a[href].new:hover,
-.b-page-body a[href].new:focus {
-    border-bottom-color: #80b70050 !important
 }
 
 .b-page-body h2 {
