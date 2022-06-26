@@ -59,7 +59,7 @@ class PanelManager {
             )
         );  // shorthand for asWebviewUri.
         const csssrc = auvu('banana.css');
-        // Collect the local fonts.
+        // Collect the local resources.
         const src = `
 @font-face {
     font-family: 'Cascadia Code';
@@ -97,6 +97,10 @@ class PanelManager {
     font-style: italic;
     src: url(${auvu('PunctCJK-BoldItalic.woff2')}) format('woff2'), url(${auvu('PunctCJK-BoldItalic.woff')}) format('woff');
     unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
+}
+
+.b-page-body {
+    --external-link-svg: url(${auvu('external-link.svg')})
 }
 `;
         // TODO we will make the template better once we get to styles

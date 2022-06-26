@@ -72,9 +72,8 @@ main {
     color: #1088c8
 }
 
-/* TODO Change to local */
 .b-page-body a[href].external::after {
-    background-image: url(https://www.bananaspace.org/static/images/external-link.svg);
+    background-image: var(--external-link-svg);
     background-size: .75em;
     width: .75em;
     height: .75em;
