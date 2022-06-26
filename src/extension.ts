@@ -23,7 +23,7 @@ class PanelManager {
             }
         );
         this.panel.onDidDispose(
-            () => {
+            () => {  // remove itself from openPanels
                 let i = openPanels.indexOf(this);
                 if (i >= 0) { openPanels.splice(i, 1); }
             }
