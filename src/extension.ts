@@ -11,7 +11,6 @@ class PanelManager {
 
     constructor(doc: vscode.TextDocument) {
         this.doc = doc;
-        // TODO: maybe set back the focus? which is better?
         this.panel = vscode.window.createWebviewPanel(
             'bTeXpreview',
             'Preview bTeX',
@@ -19,11 +18,13 @@ class PanelManager {
             {
                 localResourceRoots: [
                     vscode.Uri.file(path.join(extensionPath, 'resources'))
-                ]
+                ],
+                enableScripts: true
             }
         );
+        this.initialize();
         this.panel.onDidDispose(
-            () => {  // remove itself from openPanels
+            () => {  // remove itself from openPanels list
                 let i = openPanels.indexOf(this);
                 if (i >= 0) { openPanels.splice(i, 1); }
             }
@@ -32,16 +33,17 @@ class PanelManager {
 
     compile(): void {
         let text = this.doc.getText();
-        const request = http.request({
-            host: 'localhost',
-            port: 7200,
-            path: '/',
-            method: 'POST',
-            headers: {
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                'Content-Type': 'application/json'
-            }
-        },
+        const request = http.request(
+            {
+                host: 'localhost',
+                port: 7200,
+                path: '/',
+                method: 'POST',
+                headers: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
+                    'Content-Type': 'application/json'
+                }
+            },
             (response) => {  // Collects the response
                 var data = '';
                 response.on('data', (chunk) => data += chunk);
@@ -52,13 +54,12 @@ class PanelManager {
         request.end();
     }
 
-    render(data: { html: string; }): void {
-        let auvu = (name: string) => this.panel.webview.asWebviewUri(
+    initialize(): void {
+        const auvu = (name: string) => this.panel.webview.asWebviewUri(
             vscode.Uri.file(
                 path.join(extensionPath, 'resources', name)
             )
         );  // shorthand for asWebviewUri.
-        const csssrc = auvu('banana.css');
         // Collect the local resources.
         const src = `
 @font-face {
@@ -103,18 +104,28 @@ class PanelManager {
     --external-link-svg: url(${auvu('external-link.svg')})
 }
 `;
-        // TODO we will make the template better once we get to styles
         this.panel.webview.html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <style>${src}</style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-    <link rel="stylesheet" href="${csssrc}">
+    <link rel="stylesheet" href="${auvu('banana.css')}">
     <title>bTeX Preview</title>
 </head>
-<body class="b-page-body">
-${data.html}
+<body>
+    <script>
+        window.addEventListener('message', (event) => {
+            const bdy = document.getElementById("render-content");
+            bdy.innerHTML = event.data.html;
+        });
+    </script>
+    <div id="render-content" class="b-page-body"/>
 </body>`;
+        this.compile();  // Update content
+    }
+
+    render(data: { html: string; }): void {
+        this.panel.webview.postMessage(data);
     }
 
     close(): void {
@@ -146,7 +157,6 @@ export function activate(context: vscode.ExtensionContext) {
             // Spawn new panel
             const pm = new PanelManager(doc);
             openPanels.push(pm);
-            pm.compile();
         });
     context.subscriptions.push(disposable);
 
