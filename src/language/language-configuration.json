@@ -1,0 +1,113 @@
+{
+    "comments": {
+        "lineComment": "%"
+    },
+    "brackets": [],
+    "autoClosingPairs": [
+        {
+            "open": "{",
+            "close": "}"
+        },
+        {
+            "open": "[",
+            "close": "]"
+        },
+        {
+            "open": "(",
+            "close": ")"
+        },
+        {
+            "open": "\\{",
+            "close": "\\}"
+        },
+        {
+            "open": "\\[",
+            "close": "\\]"
+        },
+        {
+            "open": "\\(",
+            "close": "\\)"
+        },
+        {
+            "open": "`",
+            "close": "'",
+        },
+        {
+            "open": "$",
+            "close": "$",
+            "notIn": [
+                "comment"
+            ]
+        }
+    ],
+    "surroundingPairs": [
+        [
+            "{",
+            "}"
+        ],
+        [
+            "[",
+            "]"
+        ],
+        [
+            "(",
+            ")"
+        ],
+        [
+            "`",
+            "'"
+        ],
+        [
+            "$",
+            "$"
+        ]
+    ],
+    "wordPattern": "\\\\(@*[a-zA-Z]*)|[^\\s\\d`~!@#$%^&*()\\-=_+[\\]{}\\\\\\|;:'\"<>,./?\\u0500-\\uffff]+",
+    "indentationRules": {
+        "increaseIndentPattern": "\\\\begin\\s*\\{[^\\{\\}\\\\]*\\}(?!.*\\\\(begin|end)\\s*\\{)",
+        "decreaseIndentPattern": "^\\s*\\\\end\\s*\\{"
+    },
+    "onEnterRules": [
+        {
+            "beforeText": "\\\\begin\\s*\\{[^\\{\\}\\\\]*\\}(?!.*\\\\(begin|end)\\s*\\{)",
+            "afterText": "^\\s*\\\\end\\s*\\{",
+            "action": {
+                "indent": "indentOutdent"
+            }
+        },
+        {
+            "beforeText": "\\\\begin\\s*\\{[^\\{\\}\\\\]*\\}(?!.*\\\\(begin|end)\\s*\\{)",
+            "action": {
+                "indent": "indent"
+            }
+        },
+        {
+            "beforeText": "\\$\\$\\s*$",
+            "afterText": "^\\s*\\$\\$",
+            "action": {
+                "indent": "indentOutdent"
+            }
+        },
+        {
+            "beforeText": "\\\\\\[\\s*$",
+            "afterText": "^\\s*\\\\\\]",
+            "action": {
+                "indent": "indentOutdent"
+            }
+        },
+        {
+            "beforeText": "\\\\\\(\\s*$",
+            "afterText": "^\\s*\\\\\\)",
+            "action": {
+                "indent": "indentOutdent"
+            }
+        },
+        {
+            "beforeText": "\\{\\s*$",
+            "afterText": "^\\s*\\}",
+            "action": {
+                "indent": "indentOutdent"
+            }
+        }
+    ]
+}

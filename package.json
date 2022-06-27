@@ -1,5 +1,5 @@
 {
-  "name": "vscode-btex",
+    "name": "vscode-btex",
     "displayName": "vscode-btex",
     "description": "btex plugin for VSCode",
     "version": "0.0.1",
@@ -20,11 +20,19 @@
                 "title": "Compile bTeX to HTML"
             }
         ],
-        "languages": [{
-            "id": "btex",
-            "extensions": [ ".btx" ],
-            "aliases": [ "bTeX", "btex" ]
-        }]
+        "languages": [
+            {
+                "id": "btex",
+                "extensions": [
+                    ".btx"
+                ],
+                "aliases": [
+                    "bTeX",
+                    "btex"
+                ],
+                "configuration": "./src/language/language-configuration.json"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
