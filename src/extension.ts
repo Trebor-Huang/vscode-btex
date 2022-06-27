@@ -2,8 +2,12 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as http from 'http';
 
-var saveListener: vscode.Disposable, closeListener: vscode.Disposable;
+var saveListener: vscode.Disposable,
+    closeListener: vscode.Disposable;
 var extensionPath: string;
+var bTeXsh: vscode.Terminal | undefined = undefined;
+var bTeXcwd: string | undefined = undefined;
+var bTeXcmd: string | undefined = undefined;
 
 class PanelManager {
     readonly doc: vscode.TextDocument;
@@ -142,7 +146,7 @@ class PanelManager {
     }
 
     close(): void {
-        console.log("bTeX: closing");
+        console.log("bTeX: Closing Panel.");
         this.panel.dispose();
     }
 }
@@ -153,7 +157,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('bTeX: Active.');
     extensionPath = context.extensionPath;
     let disposable = vscode.commands.registerCommand('vscode-btex.compile',
-        () => {
+        () => {  // TODO start upon open?
             // Get active document
             const doc = vscode.window.activeTextEditor?.document;
             if (doc === undefined) {
@@ -193,9 +197,35 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     );
+    // Register language features
+    const config = vscode.workspace.getConfiguration('btex');
+    bTeXcmd = config.get('command');
+    bTeXcwd = config.get('directory');
+    // Get some settings
+
+    if (bTeXcmd === '') {
+        console.log('bTeX: Skipping server startup.');
+        return;
+    }
+    if (bTeXcmd === undefined || bTeXcwd === undefined || bTeXcwd === '') {
+        vscode.window.showErrorMessage("bTeX server path is not configured. Restart after providing the path in settings.");
+        return;
+    }
+
+    // Start up language server
+    bTeXsh = vscode.window.createTerminal({
+        cwd: bTeXcwd,
+        hideFromUser: true,
+        isTransient: false,
+        name: "bTeX server"
+    });
+    bTeXsh.sendText(bTeXcmd);
+    bTeXsh.processId.then(pid => console.log("Starting bTeX server with", pid));
 }
 
 export function deactivate() {
+    console.log("bTeX: Shutting down.");
+    bTeXsh?.dispose();
     saveListener.dispose();
     closeListener.dispose();
 }

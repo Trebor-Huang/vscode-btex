@@ -32,7 +32,22 @@
                 ],
                 "configuration": "./src/language/language-configuration.json"
             }
-        ]
+        ],
+        "configuration": {
+            "title": "Btex",
+            "properties": {
+                "btex.command": {
+                    "type": "string",
+                    "default": "yarn start",
+                    "description": "Command to start up bTeX rendering server. Leave empty to manually start up the server."
+                },
+                "btex.directory": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Directory of bTeX rendering server."
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "yarn run compile",
