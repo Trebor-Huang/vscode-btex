@@ -46,9 +46,9 @@ class PanelManager {
             },
             (response) => {  // Collects the response
                 var data = '';
-                response.on('data', (chunk) => data += chunk);
+                response.on('data', chunk => data += chunk);
                 response.on('end', () => this.render(JSON.parse(data)));
-                response.on('error', (err) => vscode.window.showErrorMessage(err.message));
+                response.on('error', err => vscode.window.showErrorMessage(err.message));
             });
         request.write(JSON.stringify({ code: text }));
         request.end();
