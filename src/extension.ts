@@ -6,8 +6,37 @@ var saveListener: vscode.Disposable,
     closeListener: vscode.Disposable;
 var extensionPath: string;
 var bTeXsh: vscode.Terminal | undefined = undefined;
-var bTeXcwd: string | undefined = undefined;
-var bTeXcmd: string | undefined = undefined;
+
+function startServer(){  // Returns whether the server is started
+    if (bTeXsh !== undefined) {
+        return true;
+    }
+
+    const config = vscode.workspace.getConfiguration('btex');
+    const bTeXcmd : string | undefined = config.get('command');
+    const bTeXcwd : string | undefined = config.get('directory');
+    // Get some settings
+
+    if (bTeXcmd === '') {
+        console.log('bTeX: Skipping server startup.');
+        return false;
+    }
+    if (bTeXcmd === undefined || bTeXcwd === undefined || bTeXcwd === '') {
+        vscode.window.showErrorMessage("bTeX server path is not configured.");
+        return false;
+    }
+
+    // Start up language server
+    bTeXsh = vscode.window.createTerminal({
+        cwd: bTeXcwd,
+        hideFromUser: true,
+        isTransient: false,
+        name: "bTeX server"
+    });
+    bTeXsh.sendText(bTeXcmd);
+    bTeXsh.processId.then(pid => console.log("Starting bTeX server with", pid));
+    return true;
+}
 
 class PanelManager {
     readonly doc: vscode.TextDocument;
@@ -118,7 +147,7 @@ class PanelManager {
 </head>
 <body>
     <div id="render-content" class="b-page-body">
-        <div class="loading-prompt">
+        <div class="loading-prompt" style="display: flex; justify-content: center; align-items: center;  margin-top: 30%; font-size: 24px; font-weight: bold">
             Loading...
         </div>
     </div>
@@ -157,7 +186,10 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('bTeX: Active.');
     extensionPath = context.extensionPath;
     let disposable = vscode.commands.registerCommand('vscode-btex.compile',
-        () => {  // TODO start upon open?
+        () => {
+            if (bTeXsh === undefined && !startServer()) {
+                return;
+            }
             // Get active document
             const doc = vscode.window.activeTextEditor?.document;
             if (doc === undefined) {
@@ -198,29 +230,6 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     // Register language features
-    const config = vscode.workspace.getConfiguration('btex');
-    bTeXcmd = config.get('command');
-    bTeXcwd = config.get('directory');
-    // Get some settings
-
-    if (bTeXcmd === '') {
-        console.log('bTeX: Skipping server startup.');
-        return;
-    }
-    if (bTeXcmd === undefined || bTeXcwd === undefined || bTeXcwd === '') {
-        vscode.window.showErrorMessage("bTeX server path is not configured. Restart after providing the path in settings.");
-        return;
-    }
-
-    // Start up language server
-    bTeXsh = vscode.window.createTerminal({
-        cwd: bTeXcwd,
-        hideFromUser: true,
-        isTransient: false,
-        name: "bTeX server"
-    });
-    bTeXsh.sendText(bTeXcmd);
-    bTeXsh.processId.then(pid => console.log("Starting bTeX server with", pid));
 }
 
 export function deactivate() {

@@ -19,7 +19,7 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
 ## Requirements
 
-- Install bTeX and optionally tikz2svg. Currently bTeX must be up and running on port 7200. You can optionally start up tikz2svg on port 9292 to have full support for tikz format.
+- Install bTeX and optionally tikz2svg. You can either use the settings to configure the path to bTeX, or start up manually. You can optionally start up (manually) tikz2svg on port 9292 to have full support for tikz format.
 
 ## Extension Settings
 
