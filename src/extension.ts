@@ -190,22 +190,25 @@ export function activate(context: vscode.ExtensionContext) {
             if (bTeXsh === undefined && !startServer()) {
                 return;
             }
-            // Get active document
-            const doc = vscode.window.activeTextEditor?.document;
-            if (doc === undefined) {
-                vscode.window.showErrorMessage("No active text editor found.");
-                return;
-            }
-            // Check old panels
-            for (const pm of openPanels) {
-                if (doc === pm.doc) {
-                    pm.panel.reveal();
+            setTimeout(() => {
+                // Get active document
+                const doc = vscode.window.activeTextEditor?.document;
+                if (doc === undefined) {
+                    vscode.window.showErrorMessage("No active text editor found.");
                     return;
                 }
-            }
-            // Spawn new panel
-            const pm = new PanelManager(doc);
-            openPanels.push(pm);
+                // Check old panels
+                for (const pm of openPanels) {
+                    if (doc === pm.doc) {
+                        pm.panel.reveal();
+                        return;
+                    }
+                }
+                // Spawn new panel
+                const pm = new PanelManager(doc);
+                openPanels.push(pm);
+            }, 500);  // TODO dumb way to wait, any better?
+            // TODO once we internalize the bTeX server this is no longer needed
         });
     context.subscriptions.push(disposable);
 
