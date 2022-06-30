@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as http from 'http';
+import * as btex from 'btex';
 
 var saveListener: vscode.Disposable,
     closeListener: vscode.Disposable;
@@ -65,26 +65,10 @@ class PanelManager {
     }
 
     compile(): void {
-        let text = this.doc.getText();
-        const request = http.request(
-            {
-                host: 'localhost',
-                port: 7200,
-                path: '/',
-                method: 'POST',
-                headers: {
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    'Content-Type': 'application/json'
-                }
-            },
-            (response) => {  // Collects the response
-                var data = '';
-                response.on('data', chunk => data += chunk);
-                response.on('end', () => this.render(JSON.parse(data)));
-                response.on('error', err => vscode.window.showErrorMessage(err.message));
-            });
-        request.write(JSON.stringify({ code: text }));
-        request.end();
+        const text = this.doc.getText();
+        btex.render(text).then((result:string) => {
+            this.render(result);
+        });
     }
 
     initialize(): void {
@@ -170,8 +154,8 @@ class PanelManager {
         this.compile();  // Update content
     }
 
-    render(data: { html: string; }): void {
-        this.panel.webview.postMessage(data);
+    render(data: string): void {
+        this.panel.webview.postMessage({html:data});
     }
 
     close(): void {
@@ -187,28 +171,22 @@ export function activate(context: vscode.ExtensionContext) {
     extensionPath = context.extensionPath;
     let disposable = vscode.commands.registerCommand('vscode-btex.compile',
         () => {
-            if (bTeXsh === undefined && !startServer()) {
+            // Get active document
+            const doc = vscode.window.activeTextEditor?.document;
+            if (doc === undefined) {
+                vscode.window.showErrorMessage("No active text editor found.");
                 return;
             }
-            setTimeout(() => {
-                // Get active document
-                const doc = vscode.window.activeTextEditor?.document;
-                if (doc === undefined) {
-                    vscode.window.showErrorMessage("No active text editor found.");
+            // Check old panels
+            for (const pm of openPanels) {
+                if (doc === pm.doc) {
+                    pm.panel.reveal();
                     return;
                 }
-                // Check old panels
-                for (const pm of openPanels) {
-                    if (doc === pm.doc) {
-                        pm.panel.reveal();
-                        return;
-                    }
-                }
-                // Spawn new panel
-                const pm = new PanelManager(doc);
-                openPanels.push(pm);
-            }, 500);  // TODO dumb way to wait, any better?
-            // TODO once we internalize the bTeX server this is no longer needed
+            }
+            // Spawn new panel
+            const pm = new PanelManager(doc);
+            openPanels.push(pm);
         });
     context.subscriptions.push(disposable);
 
