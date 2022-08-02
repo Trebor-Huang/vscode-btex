@@ -8,6 +8,7 @@ var extensionPath: string;
 var bTeXsh: vscode.Terminal | undefined = undefined;
 
 function startServer(){  // Returns whether the server is started
+    // TODO use this to start tikz2svg instead
     if (bTeXsh !== undefined) {
         return true;
     }
