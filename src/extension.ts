@@ -159,7 +159,6 @@ class PanelManager {
     }
 
     close(): void {
-        console.log("bTeX: Closing Panel.");
         this.panel.dispose();
     }
 }
@@ -221,4 +220,7 @@ export function deactivate() {
     bTeXsh?.dispose();
     saveListener.dispose();
     closeListener.dispose();
+    for (const pm of openPanels) {
+        pm.close();
+    }
 }
