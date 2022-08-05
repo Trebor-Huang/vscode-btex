@@ -125,7 +125,7 @@ class PanelManager {
 <head>
     <meta charset="UTF-8">
     <style>${src}</style>
-    <link rel="stylesheet" href="${auvu('katex.min.css')}">
+    <link rel="stylesheet" href="${auvu('katex', 'katex.min.css')}">
     <link rel="stylesheet" href="${auvu('banana.css')}">
     <title>bTeX Preview</title>
 </head>
