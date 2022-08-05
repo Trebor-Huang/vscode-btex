@@ -73,7 +73,7 @@
         "typescript": "^4.7.2"
     },
     "dependencies": {
-        "btex": "Trebor-Huang/btex#dist",
+        "btex": "banana-space/btex#dist",
         "esbuild": "^0.14.51"
     }
 }
