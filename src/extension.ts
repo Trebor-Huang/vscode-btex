@@ -8,7 +8,6 @@ var extensionPath: string;
 var bTeXsh: vscode.Terminal | undefined = undefined;
 
 function startServer(){  // Returns whether the server is started
-    // TODO use this to start tikz2svg instead
     if (bTeXsh !== undefined) {
         return true;
     }
@@ -35,7 +34,7 @@ function startServer(){  // Returns whether the server is started
         name: "bTeX server"
     });
     bTeXsh.sendText(bTeXcmd);
-    bTeXsh.processId.then(pid => console.log("Starting bTeX server with", pid));
+    bTeXsh.processId.then(pid => console.log("Starting tikz2svg server with pid", pid));
     return true;
 }
 
@@ -170,6 +169,7 @@ var openPanels: PanelManager[] = [];
 export function activate(context: vscode.ExtensionContext) {
     console.log('bTeX: Active.');
     extensionPath = context.extensionPath;
+    startServer();
     let disposable = vscode.commands.registerCommand('vscode-btex.compile',
         () => {
             // Get active document
@@ -197,6 +197,7 @@ export function activate(context: vscode.ExtensionContext) {
             for (const pm of openPanels) {
                 if (doc === pm.doc) {
                     pm.compile();
+                    return;
                 }
             }
         }
@@ -207,6 +208,7 @@ export function activate(context: vscode.ExtensionContext) {
             for (const pm of openPanels) {
                 if (doc === pm.doc) {
                     pm.close();
+                    return;
                 }
             }
         }

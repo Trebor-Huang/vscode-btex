@@ -19,11 +19,11 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
 ## Requirements
 
-- Install optionally tikz2svg. Start up (manually) tikz2svg on port 9292 to have full support for tikz format.
+- Install optionally [tikz2svg](https://github.com/banana-space/tikz2svg). This is used to render TikZ images.
 
 ## Extension Settings
 
-(...)
+- `btex.command` and `btex.directory`: Used to specify the location of tikz2svg. You can leave blank to not let the plugin start up tikz2svg for you.
 
 ## Known Issues
 

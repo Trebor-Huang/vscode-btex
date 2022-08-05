@@ -40,12 +40,12 @@
                 "btex.command": {
                     "type": "string",
                     "default": "",
-                    "description": "Command to start up bTeX rendering server. Leave empty to manually start up the server."
+                    "description": "Command to start up tikz2svg server. Leave empty to manually start up the server."
                 },
                 "btex.directory": {
                     "type": "string",
                     "default": "",
-                    "description": "Directory of bTeX rendering server."
+                    "description": "Directory of tikz2svg server."
                 }
             }
         }
