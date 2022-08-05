@@ -72,9 +72,9 @@ class PanelManager {
     }
 
     initialize(): void {
-        const auvu = (name: string) => this.panel.webview.asWebviewUri(
+        const auvu = (...name: string[]) => this.panel.webview.asWebviewUri(
             vscode.Uri.file(
-                path.join(extensionPath, 'resources', name)
+                path.join(extensionPath, 'resources', ...name)
             )
         );  // shorthand for asWebviewUri.
         // Collect the local resources.
@@ -125,7 +125,7 @@ class PanelManager {
 <head>
     <meta charset="UTF-8">
     <style>${src}</style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+    <link rel="stylesheet" href="${auvu('katex.min.css')}">
     <link rel="stylesheet" href="${auvu('banana.css')}">
     <title>bTeX Preview</title>
 </head>
