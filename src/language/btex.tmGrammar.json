@@ -1,0 +1,55 @@
+{
+  "comment": "@popall?",
+  "scopeName": "source.btex",
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#inlink" }
+  ],
+  "repository": {
+    "math": {
+      "patterns": []
+    },
+    "inlink": {
+      "contentName": "markup.underline.link",
+      "begin": "\\[\\[",
+      "end": "\\||\\]\\]",
+      "beginCaptures": {
+        "0": { "name": "delimiter" }
+      },
+      "endCaptures": {
+        "0": { "name": "delimiter" }
+      },
+      "patterns": [
+        { "include": "#inlink.group" },
+        { "include": "#common" },
+        { "include": "#commands" }
+      ]
+    },
+    "inurl": {
+      "patterns": []
+    },
+    "common": {
+      "patterns": []
+    },
+
+    "comment": {
+      "name": "comment.line.percentage",
+      "begin": "%",
+      "end": "\n"
+    },
+    "inlink.group": {
+      "begin": "\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": { "name": "delimiter.curly" }
+      },
+      "endCaptures": {
+        "0": { "name": "delimiter.curly" }
+      },
+      "patterns": [
+        { "include": "#inlink.group" }
+      ]
+    },
+    "commands": {}
+  }
+}

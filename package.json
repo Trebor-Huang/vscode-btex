@@ -34,6 +34,13 @@
                 "configuration": "./src/language/language-configuration.json"
             }
         ],
+        "grammars": [
+            {
+                "language": "btex",
+                "scopeName": "source.btex",
+                "path": "./src/language/btex.tmGrammar.json"
+            }
+        ],
         "configuration": {
             "title": "Btex",
             "properties": {
