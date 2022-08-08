@@ -1,6 +1,0 @@
-[submodule "btex"]
-	path = btex
-	url = https://github.com/banana-space/btex
-[submodule "src/btex"]
-	path = src/btex
-	url = https://github.com/banana-space/btex

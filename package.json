@@ -14,7 +14,7 @@
     "activationEvents": [
         "onLanguage:btex"
     ],
-    "main": "./out/extension.js",
+    "main": "./out/main.js",
     "contributes": {
         "commands": [
             {
@@ -35,8 +35,7 @@
                 "configuration": "./src/language/language-configuration.json"
             }
         ],
-        "grammars": [
-        ],
+        "grammars": [],
         "configuration": {
             "title": "Btex",
             "properties": {
@@ -54,12 +53,16 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "yarn run compile",
+        "vscode:prepublish": "yarn run esbuild-base --minify",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "pretest": "yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
-        "test": "node ./out/test/runTest.js"
+        "test": "node ./out/test/runTest.js",
+        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --external:canvas --format=cjs --platform=node",
+        "esbuild": "yarn run esbuild-base --sourcemap",
+        "esbuild-watch": "yarn run esbuild-base --sourcemap --watch",
+        "test-compile": "tsc -p ./"
     },
     "devDependencies": {
         "@types/glob": "^7.2.0",
@@ -77,6 +80,6 @@
     },
     "dependencies": {
         "btex": "banana-space/btex#dist",
-        "esbuild": "^0.14.51"
+        "esbuild": "^0.14.53"
     }
 }
