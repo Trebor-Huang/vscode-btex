@@ -15,7 +15,7 @@
     "activationEvents": [
         "onLanguage:btex"
     ],
-    "main": "./out/main.js",
+    "main": "./out/extension.js",
     "contributes": {
         "commands": [
             {
@@ -54,13 +54,13 @@
         }
     },
     "scripts": {
-        "vscode:prepublish": "yarn run esbuild-base --minify",
+        "vscode:prepublish": "yarn compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "pretest": "yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js",
-        "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --external:canvas --format=cjs --platform=node",
+        "esbuild-base": "esbuild ./src/extension.ts node_modules/jsdom/lib/jsdom/living/xhr/xhr-sync-worker.js \"--external:./xhr-sync-worker.js\" --bundle --outdir=out/ --external:vscode --external:canvas --format=cjs --platform=node",
         "esbuild": "yarn run esbuild-base --sourcemap",
         "esbuild-watch": "yarn run esbuild-base --sourcemap --watch",
         "test-compile": "tsc -p ./"
