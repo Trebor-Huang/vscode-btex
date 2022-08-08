@@ -3,6 +3,7 @@
     "displayName": "vscode-btex",
     "description": "btex plugin for VSCode",
     "repository": "github:Trebor-Huang/vscode-btex",
+    "publisher": "TreborHuang",
     "version": "0.0.1",
     "license": "MIT",
     "engines": {
