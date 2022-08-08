@@ -2,8 +2,10 @@
   "comment": "@popall?",
   "scopeName": "source.btex",
   "patterns": [
+    { "include": "#inlink" },
+    { "include": "#common" },
     { "include": "#comment" },
-    { "include": "#inlink" }
+    {}
   ],
   "repository": {
     "math": {

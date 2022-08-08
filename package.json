@@ -2,6 +2,7 @@
     "name": "vscode-btex",
     "displayName": "vscode-btex",
     "description": "btex plugin for VSCode",
+    "repository": "github:Trebor-Huang/vscode-btex",
     "version": "0.0.1",
     "license": "MIT",
     "engines": {
@@ -35,11 +36,6 @@
             }
         ],
         "grammars": [
-            {
-                "language": "btex",
-                "scopeName": "source.btex",
-                "path": "./src/language/btex.tmGrammar.json"
-            }
         ],
         "configuration": {
             "title": "Btex",

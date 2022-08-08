@@ -6,15 +6,6 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
 - [ ] Syntax highlights.
 - [X] Compiles the bTeX file and show the preview on save.
-  - [X] Displays converted result assuming the server is running.
-  - [X] Trigger result on save.
-  - [X] Cache resources.
-  - [X] Keep track of panels, so that they are unique.
-  - [X] Start up bTeX engine automatically.
-  - [X] Format wiki-style links. (They don't actually link anywhere, of course.)
-  - [ ] ~~Automatic bidirectional scrolling sync~~
-- [ ] ~~Automatic installation.~~
-- [ ] ~~Customize style options.~~
 - [ ] Exports bTeX to html. (Does not look well without fitting a lot of resources in.)
 
 ## Requirements
