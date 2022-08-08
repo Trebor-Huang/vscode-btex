@@ -1,14 +1,15 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as btex from 'btex';
+import * as child_process from 'child_process';
 
 var saveListener: vscode.Disposable,
     closeListener: vscode.Disposable;
 var extensionPath: string;
-var bTeXsh: vscode.Terminal | undefined = undefined;
+var server: child_process.ChildProcess | undefined = undefined;
 
 function startServer(){  // Returns whether the server is started
-    if (bTeXsh !== undefined) {
+    if (server !== undefined) {
         return true;
     }
 
@@ -27,14 +28,11 @@ function startServer(){  // Returns whether the server is started
     }
 
     // Start up language server
-    bTeXsh = vscode.window.createTerminal({
-        cwd: bTeXcwd,
-        hideFromUser: true,
-        isTransient: false,
-        name: "bTeX server"
+    server = child_process.spawn(bTeXcmd, {
+        detached: false,
+        cwd: bTeXcwd
     });
-    bTeXsh.sendText(bTeXcmd);
-    bTeXsh.processId.then(pid => console.log("Starting tikz2svg server with pid", pid));
+    console.log('bTeX: Starting tikz2svg on pid', server.pid);
     return true;
 }
 
@@ -217,7 +215,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {
     console.log("bTeX: Shutting down.");
-    bTeXsh?.dispose();
+    server?.kill();
     saveListener.dispose();
     closeListener.dispose();
     for (const pm of openPanels) {

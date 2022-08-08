@@ -33,7 +33,7 @@
                     "bTeX",
                     "btex"
                 ],
-                "configuration": "./src/language/language-configuration.json"
+                "configuration": "./resources/language/language-configuration.json"
             }
         ],
         "grammars": [],
