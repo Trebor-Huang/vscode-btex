@@ -3,8 +3,6 @@ import * as path from 'path';
 import * as btex from 'btex';
 import * as child_process from 'child_process';
 
-var saveListener: vscode.Disposable,
-    closeListener: vscode.Disposable;
 var extensionPath: string;
 var server: child_process.ChildProcess | undefined = undefined;
 
@@ -28,15 +26,23 @@ function startServer(){  // Returns whether the server is started
     }
 
     // Start up language server
-    server = child_process.spawn(bTeXcmd, {
+    const [cmd, ...args] = bTeXcmd.split(' ');
+    server = child_process.spawn(cmd, args, {
         detached: false,
         cwd: bTeXcwd
     });
+    server.on('exit', (code, signal) => {
+        vscode.window.showErrorMessage(
+            `tikz2svg server exited with code ${code} and signal ${signal}.`
+        );
+        server = undefined;
+    });
+    server.on('error', (err) => { console.log(err); });
     console.log('bTeX: Starting tikz2svg on pid', server.pid);
     return true;
 }
 
-class PanelManager {
+class PanelManager implements vscode.Disposable {
     readonly doc: vscode.TextDocument;
     readonly panel: vscode.WebviewPanel;
 
@@ -156,7 +162,7 @@ class PanelManager {
         this.panel.webview.postMessage({html:data});
     }
 
-    close(): void {
+    dispose(): void {
         this.panel.dispose();
     }
 }
@@ -167,7 +173,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('bTeX: Active.');
     extensionPath = context.extensionPath;
     startServer();
-    let disposable = vscode.commands.registerCommand('vscode-btex.compile',
+    const registerCompile = vscode.commands.registerCommand('vscode-btex.compile',
         () => {
             // Get active document
             const doc = vscode.window.activeTextEditor?.document;
@@ -185,10 +191,13 @@ export function activate(context: vscode.ExtensionContext) {
             // Spawn new panel
             const pm = new PanelManager(doc);
             openPanels.push(pm);
+            context.subscriptions.push(pm);
         });
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(registerCompile);
+    const restartServer = vscode.commands.registerCommand('vscode-btex.restart', startServer);
+    context.subscriptions.push(restartServer);
 
-    saveListener = vscode.workspace.onDidSaveTextDocument(
+    const saveListener = vscode.workspace.onDidSaveTextDocument(
         function (doc) {
             // Update panels
             for (const pm of openPanels) {
@@ -199,26 +208,23 @@ export function activate(context: vscode.ExtensionContext) {
             }
         }
     );
+    context.subscriptions.push(saveListener);
 
-    closeListener = vscode.workspace.onDidCloseTextDocument(
+    const closeListener = vscode.workspace.onDidCloseTextDocument(
         function (doc) {
             for (const pm of openPanels) {
                 if (doc === pm.doc) {
-                    pm.close();
+                    pm.dispose();
                     return;
                 }
             }
         }
     );
+    context.subscriptions.push(closeListener);
     // Register language features
 }
 
 export function deactivate() {
     console.log("bTeX: Shutting down.");
     server?.kill();
-    saveListener.dispose();
-    closeListener.dispose();
-    for (const pm of openPanels) {
-        pm.close();
-    }
 }

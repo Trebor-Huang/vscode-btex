@@ -21,6 +21,10 @@
             {
                 "command": "vscode-btex.compile",
                 "title": "Compile bTeX to HTML"
+            },
+            {
+                "command": "vscode-btex.restart",
+                "title": "Restart tikz2svg server"
             }
         ],
         "languages": [
