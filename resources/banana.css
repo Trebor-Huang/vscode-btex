@@ -29,10 +29,10 @@ a:visited {
     letter-spacing: .015em
 }
 
-/* .b-page-body [lang]:not(:lang(zh)) {
+.b-page-body [lang]:not(:lang(zh)) {
     font-family: 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
     letter-spacing: normal
-} */
+}
 
 main {
     line-height: 1.8
@@ -174,11 +174,11 @@ main {
 .b-page-body code,
 .b-page-body pre {
     /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif; */
-    font-family: var(--vscode-font-family);
+    font-family: var(--vscode-editor-font-family);
     border: none;
-    background-color: #f4f6f8;
+    background-color: var(--vscode-textCodeBlock-background);
     line-height: 1.4;
-    color: #666;
+    color: var(--vscode-editor-foreground);
     font-size: 90%
 }
 
@@ -196,7 +196,7 @@ main {
 
 .b-page-body .identifier {
     /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif; */
-    font-family: var(--vscode-font-family);
+    font-family: var(--vscode-editor-font-family);
     font-size: 90%
 }
 
@@ -281,7 +281,7 @@ main {
 
 .b-page-body td.mw-enhanced-rc {
     /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif */
-    font-family: var(--vscode-font-family);
+    font-family: var(--vscode-editor-font-family);
 }
 
 .katex {
@@ -326,8 +326,8 @@ main {
 .btex-output .block {
     padding: .8em 1.2em;
     margin: 0 0 1em 0;
-    background-color: #f4f6f8;
-    border-color: #c0c4c8;
+    background-color: var(--vscode-textBlockQuote-background);
+    border-color: var(--vscode-textBlockQuote-border);
     border-left: 3px solid
 }
 
