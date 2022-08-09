@@ -2,6 +2,8 @@
 
 VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
+Use the "Compile bTeX to HTML" command to start.
+
 ## Features
 
 - [ ] Syntax highlights.
