@@ -6,7 +6,7 @@ html {
 body {
     margin: 0;
     font-family: 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
-    /* font-family: var(--vscode-editor-font-family); */
+    /* font-family: var(--vscode-font-family); */
     background-color: var(--vscode-editor-background)
 }
 
@@ -20,11 +20,10 @@ a:visited {
 
 .b-page-body {
     max-width: 1000px;
-    width: calc(100% - 120px);
     margin: 0 auto 0 auto;
     padding: 0px 30px 30px 30px;
     font-size: 18px;
-    /* font-family: var(--vscode-editor-font-family); */
+    /* font-family: var(--vscode-font-family); */
     font-family: PunctCJK, 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
     letter-spacing: .015em
 }
