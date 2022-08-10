@@ -535,6 +535,16 @@ main {
     display: none
 }
 
+span.btex-diagram {
+    display: inline-block
+}
+
+span.btex-diagram >svg.overlay,
+span.tikz-in-math >svg {
+    filter: invert(1);
+    mix-blend-mode: difference;
+}
+
 span.btex-diagram span.cell,
 span.btex-diagram span.label {
     display: flex;

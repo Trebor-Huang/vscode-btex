@@ -2,7 +2,8 @@
 
 VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
-Use the "Compile bTeX to HTML" command to start.
+Use the "Compile bTeX to HTML" command in the command palette to start. The
+rendered content will update on save.
 
 ## Features
 
@@ -21,6 +22,5 @@ Use the "Compile bTeX to HTML" command to start.
 ## Known Issues
 
 - Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either.
-- TikZ pictures will usually be black with transparent background unless specified in the TikZ code. Therefore in dark-themed VSCode they will not be very visible. I don't have a good way to solve it apart from adding a white background or simply switch to a light VSCode theme.
 
 ## Release Notes
