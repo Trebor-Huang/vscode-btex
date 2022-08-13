@@ -493,7 +493,7 @@ main {
 }
 
 .btex-output .block.quotation {
-    color: var(--vscode-textBlockQuote-background);
+    background: var(--vscode-textBlockQuote-background);
     border-color: var(--vscode-textBlockQuote-border);
 }
 
