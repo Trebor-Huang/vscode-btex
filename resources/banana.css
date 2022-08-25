@@ -525,13 +525,14 @@ main {
     -webkit-user-select: none
 }
 
-.btex-output .proof-collapsible.proof-collapsible-collapsed>.proof-content,
-.btex-output .proof-collapsible.proof-collapsible-collapsed>.proof-expander-collapsing {
+/* ! Note that collapsed/expanded is reversed temporarily */
+.btex-output .proof-collapsible.proof-collapsible-expanded>.proof-content,
+.btex-output .proof-collapsible.proof-collapsible-expanded>.proof-expander-collapsing {
     display: none
 }
 
-.btex-output .proof-collapsible.proof-collapsible-expanded>.proof-header,
-.btex-output .proof-collapsible.proof-collapsible-expanded>.proof-expander-expanding {
+.btex-output .proof-collapsible.proof-collapsible-collapsed>.proof-header,
+.btex-output .proof-collapsible.proof-collapsible-collapsed>.proof-expander-expanding {
     display: none
 }
 
