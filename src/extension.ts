@@ -69,9 +69,13 @@ class PanelManager implements vscode.Disposable {
     }
 
     compile(): void {
+        // TODO inverse Search
         const text = this.doc.getText();
         btex.render(text).then((result:string) => {
             this.render(result);
+        }).catch((reason) => {
+            // This is probably error unexpected by the btex engine
+            vscode.window.showErrorMessage(reason);
         });
     }
 
@@ -141,8 +145,8 @@ class PanelManager implements vscode.Disposable {
     </div>
     <script>
         const vscode = acquireVsCodeApi();
+        const bdy = document.getElementById("render-content");
         function updatebTeX(data) {
-            const bdy = document.getElementById("render-content");
             bdy.innerHTML = data.html;
             vscode.setState(data);
         }
