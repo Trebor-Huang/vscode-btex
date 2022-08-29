@@ -21,6 +21,7 @@ rendered content will update on save.
 
 ## Known Issues
 
-- Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either.
+- Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either. Similarly wiki-style links will show up as blue but don't link anywhere.
+- Collapsible proofs do not work (yet) because it requires more javascript machinery.
 
 ## Release Notes
