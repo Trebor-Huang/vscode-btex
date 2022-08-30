@@ -29,7 +29,7 @@ function startServer(){  // Returns whether the server is started
     const [cmd, ...args] = bTeXcmd.split(' ');
     server = child_process.spawn(cmd, args, {
         detached: false,
-        cwd: bTeXcwd
+        cwd: bTeXcwd  // We can also just use yarn --cwd ...
     });
     server.on('exit', (code, signal) => {
         vscode.window.showErrorMessage(
