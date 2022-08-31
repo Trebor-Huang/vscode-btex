@@ -6,6 +6,7 @@ import * as child_process from 'child_process';
 var extensionPath: string;
 var server: child_process.ChildProcess | undefined = undefined;
 var isInvertAll : boolean = false;
+var diags: vscode.DiagnosticCollection;
 
 function startServer(){  // Returns whether the server is started
     if (server !== undefined) {
@@ -72,9 +73,34 @@ class PanelManager implements vscode.Disposable {
     compile(): void {
         // TODO inverse Search
         const text = this.doc.getText();
-        btex.render(text).then((result:string) => {
-            this.render(result);
-        }).catch((reason) => {
+        btex.runWorker(text, undefined, undefined, undefined)
+        .then(result => {
+            const diagnostics = [];
+            for (const err of result.errors) {
+                // code:LINE:COL MSG
+                const res = /^code:([0-9]+):([0-9])+ (.*)$/.exec(err);
+                if (res === null || res.length !== 4) {
+                    vscode.window.showErrorMessage(
+                        'Unknown btex error.',
+                        {
+                            modal: true,
+                            detail: err
+                        }
+                    );
+                    continue;
+                }
+                const pos = new vscode.Position(
+                    parseInt(res[1])-1,parseInt(res[2])-1
+                );
+                const range = new vscode.Range(pos, pos);
+                diagnostics.push(new vscode.Diagnostic(range, res[3]));
+            }
+            diags.set(this.doc.uri, diagnostics);
+            if (result.html !== '' || result.errors.length === 0) {
+                // This prevents the contents from emptying.
+                this.render(result.html);
+            }
+        }).catch(reason => {
             // This is probably error unexpected by the btex engine
             vscode.window.showErrorMessage(reason);
         });
@@ -231,6 +257,7 @@ export function activate(context: vscode.ExtensionContext) {
             for (const pm of openPanels) {
                 if (doc === pm.doc) {
                     pm.dispose();
+                    diags.delete(pm.doc.uri);
                     return;
                 }
             }
@@ -248,6 +275,9 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     context.subscriptions.push(settingsListener);
+
+    diags = vscode.languages.createDiagnosticCollection('btex');
+    context.subscriptions.push(diags);
     // Register language features
 }
 
