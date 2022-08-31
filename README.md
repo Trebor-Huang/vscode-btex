@@ -18,6 +18,7 @@ rendered content will update on save.
 ## Extension Settings
 
 - `btex.command` and `btex.directory`: Used to specify the location of tikz2svg. You can leave blank to not let the plugin start up tikz2svg for you.
+- `btex.invertAll`: Color settings for formulas, see settings description. It is only relevant in dark themes.
 
 ## Known Issues
 

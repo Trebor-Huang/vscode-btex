@@ -1,5 +1,6 @@
 # Change Log
 
-## 0.0.1
+## 0.0.x
 
-- Initial release
+- Initial release.
+- Miscellanous improvements.
