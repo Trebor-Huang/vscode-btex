@@ -5,6 +5,7 @@ import * as child_process from 'child_process';
 
 var extensionPath: string;
 var server: child_process.ChildProcess | undefined = undefined;
+var isInvertAll : boolean = false;
 
 function startServer(){  // Returns whether the server is started
     if (server !== undefined) {
@@ -138,7 +139,7 @@ class PanelManager implements vscode.Disposable {
     <title>bTeX Preview</title>
 </head>
 <body>
-    <div id="render-content" class="b-page-body">
+    <div id="render-content" class="b-page-body" ${isInvertAll ? 'invert-all' : 'invert-only'}>
         <div class="loading-prompt" style="display: flex; justify-content: center; align-items: center;  margin-top: 30%; font-size: 24px; font-weight: bold">
             Loading...
         </div>
@@ -147,7 +148,15 @@ class PanelManager implements vscode.Disposable {
         const vscode = acquireVsCodeApi();
         const bdy = document.getElementById("render-content");
         function updatebTeX(data) {
-            bdy.innerHTML = data.html;
+            if ('html' in data) {
+                bdy.innerHTML = data.html;
+            } else {
+                data.html = bdy.innerHTML;
+            }
+            if (data.isInvertAll == bdy.hasAttribute('invert-only')) {
+                bdy.toggleAttribute('invert-all');
+                bdy.toggleAttribute('invert-only');
+            }
             vscode.setState(data);
         }
         const previousState = vscode.getState();
@@ -163,7 +172,10 @@ class PanelManager implements vscode.Disposable {
     }
 
     render(data: string): void {
-        this.panel.webview.postMessage({html:data});
+        this.panel.webview.postMessage({
+            html : data,
+            isInvertAll : isInvertAll
+        });
     }
 
     dispose(): void {
@@ -225,6 +237,17 @@ export function activate(context: vscode.ExtensionContext) {
         }
     );
     context.subscriptions.push(closeListener);
+
+    const settingsListener = vscode.workspace.onDidChangeConfiguration(
+        function (event) {
+            if (event.affectsConfiguration('btex')) {
+                isInvertAll = vscode.workspace
+                    .getConfiguration('btex')
+                    .get('invertAll') ?? false;
+            }
+        }
+    );
+    context.subscriptions.push(settingsListener);
     // Register language features
 }
 

@@ -540,10 +540,20 @@ span.btex-diagram {
     display: inline-block
 }
 
-span.btex-diagram >svg.overlay,
-span.tikz-in-math >svg {
+#render-content[invert-only] span.btex-diagram >svg.overlay,
+#render-content[invert-only] span.tikz-in-math >svg {
     filter: invert(1);
     mix-blend-mode: difference;
+}
+
+#render-content[invert-all] .katex {
+    color: #000
+}
+
+#render-content[invert-all] .display-math,
+#render-content[invert-all] .inline-math {
+    filter: invert(1);
+    mix-blend-mode: difference
 }
 
 span.btex-diagram span.cell,
