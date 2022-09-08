@@ -7,7 +7,7 @@ rendered content will update on save.
 
 ## Features
 
-- [ ] Syntax highlights.
+- [X] Syntax highlights. (Needs more testing)
 - [X] Compiles the bTeX file and show the preview on save.
 - [ ] Exports bTeX to html. (Does not look well without fitting a lot of resources in.)
 
@@ -24,5 +24,6 @@ rendered content will update on save.
 
 - Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either. Similarly wiki-style links will show up as blue but don't link anywhere.
 - Collapsible proofs do not work (yet) because it requires more javascript machinery.
+- The behaviour of `* ` started lines are weird.
 
 ## Release Notes
