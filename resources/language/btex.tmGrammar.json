@@ -3,14 +3,9 @@
   "scopeName": "source.btex",
   "patterns": [
     { "include": "#inlink" },
-    { "include": "#common" },
-    { "include": "#comment" },
-    {}
+    { "include": "#common" }
   ],
   "repository": {
-    "math": {
-      "patterns": []
-    },
     "inlink": {
       "contentName": "markup.underline.link",
       "begin": "\\[\\[",
@@ -23,22 +18,16 @@
       },
       "patterns": [
         { "include": "#inlink.group" },
-        { "include": "#common" },
-        { "include": "#commands" }
+        { "include": "#common" }
       ]
     },
-    "inurl": {
-      "patterns": []
-    },
     "common": {
-      "patterns": []
+      "name": "embedded.latex",
+      "patterns": [
+        { "include": "text.tex.latex" }
+      ]
     },
 
-    "comment": {
-      "name": "comment.line.percentage",
-      "begin": "%",
-      "end": "\n"
-    },
     "inlink.group": {
       "begin": "\\{",
       "end": "\\}",
@@ -51,7 +40,6 @@
       "patterns": [
         { "include": "#inlink.group" }
       ]
-    },
-    "commands": {}
+    }
   }
 }

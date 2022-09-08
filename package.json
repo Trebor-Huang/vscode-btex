@@ -40,7 +40,16 @@
                 "configuration": "./resources/language/language-configuration.json"
             }
         ],
-        "grammars": [],
+        "grammars": [
+            {
+                "language": "btex",
+                "scopeName": "source.btex",
+                "path": "./resources/language/btex.tmGrammar.json",
+                "embeddedLanguages": {
+                    "embedded.latex": "latex"
+                }
+            }
+        ],
         "configuration": {
             "title": "Btex",
             "properties": {
