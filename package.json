@@ -79,8 +79,9 @@
     "icon": "resources/logo.png",
     "scripts": {
         "vscode:prepublish": "yarn compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
+        "compile": "webpack --config webpack.config.js",
+        "watch": "webpack -w --config webpack.config.js",
+        "old-compile": "tsc -p ./",
         "pretest": "yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js",
@@ -98,7 +99,10 @@
         "eslint": "^8.16.0",
         "glob": "^8.0.3",
         "mocha": "^10.0.0",
-        "typescript": "^4.7.2"
+        "ts-loader": "^9.3.1",
+        "typescript": "^4.7.2",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^4.10.0"
     },
     "dependencies": {
         "btex": "banana-space/btex#dist"
