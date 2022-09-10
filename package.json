@@ -31,7 +31,7 @@
             {
                 "id": "btex",
                 "extensions": [
-                    ".btx"
+                    ".btx", ".btex"
                 ],
                 "aliases": [
                     "bTeX",
@@ -71,6 +71,7 @@
             }
         }
     },
+    "icon": "resources/logo.png",
     "scripts": {
         "vscode:prepublish": "yarn compile",
         "compile": "tsc -p ./",
