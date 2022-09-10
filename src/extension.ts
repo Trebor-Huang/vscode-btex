@@ -78,7 +78,7 @@ class PanelManager implements vscode.Disposable {
             const diagnostics = [];
             for (const err of result.errors) {
                 // code:LINE:COL MSG
-                const res = /^code:([0-9]+):([0-9])+ (.*)$/.exec(err);
+                const res = /^code:([0-9]+):([0-9]+) (.*)$/.exec(err);
                 if (res === null || res.length !== 4) {
                     vscode.window.showErrorMessage(
                         'Unknown btex error.',

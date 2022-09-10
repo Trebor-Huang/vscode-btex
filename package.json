@@ -84,9 +84,6 @@
         "pretest": "yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js",
-        "esbuild-base": "esbuild ./src/extension.ts node_modules/jsdom/lib/jsdom/living/xhr/xhr-sync-worker.js \"--external:./xhr-sync-worker.js\" --bundle --outdir=out/ --external:vscode --external:canvas --format=cjs --platform=node",
-        "esbuild": "yarn run esbuild-base --sourcemap",
-        "esbuild-watch": "yarn run esbuild-base --sourcemap --watch",
         "test-compile": "tsc -p ./"
     },
     "devDependencies": {
@@ -104,7 +101,6 @@
         "typescript": "^4.7.2"
     },
     "dependencies": {
-        "btex": "banana-space/btex#dist",
-        "esbuild": "^0.14.53"
+        "btex": "banana-space/btex#dist"
     }
 }
