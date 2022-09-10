@@ -4,7 +4,7 @@
     "description": "btex plugin for VSCode",
     "repository": "github:Trebor-Huang/vscode-btex",
     "publisher": "TreborHuang",
-    "version": "0.0.16",
+    "version": "0.1.0",
     "license": "MIT",
     "engines": {
         "vscode": "^1.68.0"
