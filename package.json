@@ -79,16 +79,15 @@
     "icon": "resources/logo.png",
     "scripts": {
         "vscode:prepublish": "yarn compile",
-        "compile": "webpack --config webpack.config.js",
-        "watch": "webpack -w --config webpack.config.js",
-        "old-compile": "tsc -p ./",
+        "compile": "tsc -p ./",
+        "watch": "tsc --watch -p ./",
         "pretest": "yarn run compile && yarn run lint",
         "lint": "eslint src --ext ts",
         "test": "node ./out/test/runTest.js",
         "test-compile": "tsc -p ./"
     },
     "devDependencies": {
-        "@types/glob": "^7.2.0",
+        "@types/glob": "^8.0.0",
         "@types/katex": "^0.14.0",
         "@types/mocha": "^9.1.1",
         "@types/node": "16.x",
@@ -99,10 +98,7 @@
         "eslint": "^8.16.0",
         "glob": "^8.0.3",
         "mocha": "^10.0.0",
-        "ts-loader": "^9.3.1",
-        "typescript": "^4.7.2",
-        "webpack": "^5.74.0",
-        "webpack-cli": "^4.10.0"
+        "typescript": "^4.7.2"
     },
     "dependencies": {
         "btex": "banana-space/btex#dist"
