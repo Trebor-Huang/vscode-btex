@@ -1,12 +1,13 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as btex from 'btex';
+import { runWorker } from 'btex';  // Actually lazy loaded
 import * as child_process from 'child_process';
 
 var extensionPath: string;
 var server: child_process.ChildProcess | undefined = undefined;
 var isInvertAll : boolean = false;
 var diags: vscode.DiagnosticCollection;
+var _runWorker : typeof runWorker;
 
 function startServer(){  // Returns whether the server is started
     if (server !== undefined) {
@@ -73,7 +74,10 @@ class PanelManager implements vscode.Disposable {
     compile(): void {
         // TODO inverse Search
         const text = this.doc.getText();
-        btex.runWorker(text, undefined, undefined, undefined)
+        if (_runWorker === undefined) {
+            _runWorker = require('btex').runWorker;
+        }
+        _runWorker(text, undefined, undefined, undefined)
         .then(result => {
             const diagnostics = [];
             for (const err of result.errors) {

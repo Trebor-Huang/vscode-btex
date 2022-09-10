@@ -2,6 +2,8 @@
 
 VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
+![Demo](demo/demo.gif)
+
 Use the "Compile bTeX to HTML" command in the command palette to start. The
 rendered content will update on save.
 
@@ -9,7 +11,6 @@ rendered content will update on save.
 
 - [X] Syntax highlights. (Needs more testing)
 - [X] Compiles the bTeX file and show the preview on save.
-- [ ] Exports bTeX to html. (Does not look well without fitting a lot of resources in.)
 
 ## Requirements
 
