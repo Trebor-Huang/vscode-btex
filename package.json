@@ -4,7 +4,7 @@
     "description": "btex plugin for VSCode",
     "repository": "github:Trebor-Huang/vscode-btex",
     "publisher": "TreborHuang",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "license": "MIT",
     "engines": {
         "vscode": "^1.68.0"
@@ -31,7 +31,8 @@
             {
                 "id": "btex",
                 "extensions": [
-                    ".btx", ".btex"
+                    ".btx",
+                    ".btex"
                 ],
                 "aliases": [
                     "bTeX",
