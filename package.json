@@ -38,7 +38,11 @@
                     "bTeX",
                     "btex"
                 ],
-                "configuration": "./resources/language/language-configuration.json"
+                "configuration": "./resources/language/language-configuration.json",
+                "icon": {
+                    "dark": "./resources/icon_dark.png",
+                    "light": "./resources/icon_light.png"
+                }
             }
         ],
         "grammars": [
