@@ -31,6 +31,7 @@ export class BtexServer {
         const [cmd, ...args] = bTeXcmd.split(' ');
         this.server = child_process.spawn(cmd, args, {
             detached: false,
+            stdio: 'ignore',
             cwd: bTeXcwd  // We can also just use yarn --cwd ...
         });
         this.server.on('exit', (code, signal) => {

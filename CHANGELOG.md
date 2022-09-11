@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.2
+
+- Attempt to fix the bug where `tikz2svg` processes may be orphaned.
+
 ## 0.1.1
 
 - `btex` is now lazy loaded, dramatically decreasing load time.
