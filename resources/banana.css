@@ -573,3 +573,24 @@ span.btex-diagram .katex {
 span.btex-diagram .katex span.rlap {
     user-select: none
 }
+
+/* Update when https://github.com/banana-space/banana-space/issues/7 is resolved */
+@media print {
+    .b-nav-wrapper,#siteNotice,.content__before-header,.content__namespaces-actions,footer {
+        display: none
+    }
+
+    .b-page-body {
+        box-shadow: none;
+        padding: 0;
+        font-size: 12px
+    }
+
+    h1,h2,h3,h4 {
+        font-weight: normal
+    }
+
+    .nomobile {
+        display: none
+    }
+}
