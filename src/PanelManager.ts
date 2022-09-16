@@ -138,6 +138,7 @@ export class PanelManager implements vscode.Disposable {
         </div>
     </div>
     <script>
+      (function(){
         const vscode = acquireVsCodeApi();
         const bdy = document.getElementById("render-content");
         function updatebTeX(data) {
@@ -158,7 +159,8 @@ export class PanelManager implements vscode.Disposable {
         }
         window.addEventListener('message', event => {
             updatebTeX(event.data);
-        });
+        })
+      })();
     </script>
 </body>`;
         this.compile();  // Update content
