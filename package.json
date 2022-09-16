@@ -20,7 +20,11 @@
         "commands": [
             {
                 "command": "vscode-btex.compile",
-                "title": "Compile bTeX to HTML"
+                "title": "Compile and preview bTeX"
+            },
+            {
+                "command": "vscode-btex.export",
+                "title": "Export bTeX to PDF/printer"
             },
             {
                 "command": "vscode-btex.restart",

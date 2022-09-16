@@ -25,6 +25,15 @@ export function activate(context: vscode.ExtensionContext) {
                 }
             }
         ),
+        // Register printing command
+        vscode.commands.registerCommand('vscode-btex.export',
+        () => {
+            let pm = PanelManager.compileCommand(true);
+            if (pm !== undefined) {
+                context.subscriptions.push(pm);
+            }
+        }
+        ),
         // Register restart command
         vscode.commands.registerCommand('vscode-btex.restart',
             server.startServer.bind(server)),

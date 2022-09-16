@@ -1,86 +1,14 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { runWorker } from 'btex';  // Actually lazy loaded
+import * as fs from 'fs';
+import { serve } from './ServePrinting';  // Actually lazy loaded
+import { runWorker } from 'btex';
 var _runWorker : typeof runWorker;
+var _serve : typeof serve;
 
-export class PanelManager implements vscode.Disposable {
-    readonly doc: vscode.TextDocument;
-    readonly panel: vscode.WebviewPanel;
-    static isInvertAll : boolean = false;
-    static extensionPath: string;
-    static diags: vscode.DiagnosticCollection;
-    static openPanels: PanelManager[] = [];
-
-    constructor(doc: vscode.TextDocument) {
-        this.doc = doc;
-        this.panel = vscode.window.createWebviewPanel(
-            'bTeXpreview',
-            'Preview bTeX',
-            vscode.ViewColumn.Beside,
-            {
-                localResourceRoots: [
-                    vscode.Uri.file(
-                        path.join(PanelManager.extensionPath, 'resources'))
-                ],
-                enableScripts: true
-            }
-        );
-        this.initialize();
-        this.panel.onDidDispose(
-            () => {  // remove itself from openPanels list
-                let i = PanelManager.openPanels.indexOf(this);
-                if (i >= 0) { PanelManager.openPanels.splice(i, 1); }
-            }
-        );
-    }
-
-    compile(): void {
-        // TODO inverse Search
-        const text = this.doc.getText();
-        if (_runWorker === undefined) {
-            _runWorker = require('btex').runWorker;
-        }
-        _runWorker(text, undefined, undefined, undefined)
-        .then(result => {
-            const diagnostics = [];
-            for (const err of result.errors) {
-                // code:LINE:COL MSG
-                const res = /^code:([0-9]+):([0-9]+) (.*)$/.exec(err);
-                if (res === null || res.length !== 4) {
-                    vscode.window.showErrorMessage(
-                        'Unknown btex error.',
-                        {
-                            modal: true,
-                            detail: err
-                        }
-                    );
-                    continue;
-                }
-                const pos = new vscode.Position(
-                    parseInt(res[1])-1,parseInt(res[2])-1
-                );
-                const range = new vscode.Range(pos, pos);
-                diagnostics.push(new vscode.Diagnostic(range, res[3]));
-            }
-            PanelManager.diags.set(this.doc.uri, diagnostics);
-            if (result.html !== '' || result.errors.length === 0) {
-                // This prevents the contents from emptying.
-                this.render(result.html);
-            }
-        }).catch(reason => {
-            // This is probably error unexpected by the btex engine
-            vscode.window.showErrorMessage(reason);
-        });
-    }
-
-    initialize(): void {
-        const awvu = (...name: string[]) => this.panel.webview.asWebviewUri(
-            vscode.Uri.file(
-                path.join(PanelManager.extensionPath, 'resources', ...name)
-            )
-        );  // shorthand for asWebviewUri.
-        // Collect the local resources.
-        const src = `
+// Generate CSS for fonts
+function cssFonts(awvu: (file : string) => string) {
+    return `
 @font-face {
     font-family: 'Cascadia Code';
     src: url(${awvu('CascadiaCode.woff2')}) format('woff2'), url(${awvu('CascadiaCode.woff')}) format('woff')
@@ -123,10 +51,125 @@ export class PanelManager implements vscode.Disposable {
     --external-link-svg: url(${awvu('external-link.svg')})
 }
 `;
+}
+
+function getResource(...name: string[]) {
+    return path.join(PanelManager.extensionPath, 'resources', ...name);
+}
+
+export class PanelManager implements vscode.Disposable {
+    readonly doc: vscode.TextDocument;
+    readonly panel: vscode.WebviewPanel;
+    static isInvertAll : boolean = false;
+    static extensionPath: string;
+    static diags: vscode.DiagnosticCollection;
+    static openPanels: PanelManager[] = [];
+
+    constructor(doc: vscode.TextDocument) {
+        this.doc = doc;
+        this.panel = vscode.window.createWebviewPanel(
+            'bTeXpreview',
+            'Preview bTeX',
+            vscode.ViewColumn.Beside,
+            {
+                localResourceRoots: [
+                    vscode.Uri.file(
+                        path.join(PanelManager.extensionPath, 'resources'))
+                ],
+                enableScripts: true
+            }
+        );
+        this.initialize();
+        this.panel.onDidDispose(
+            () => {  // remove itself from openPanels list
+                let i = PanelManager.openPanels.indexOf(this);
+                if (i >= 0) { PanelManager.openPanels.splice(i, 1); }
+            }
+        );
+    }
+
+    compile(printing=false): void {
+        // TODO inverse Search
+        const text = this.doc.getText();
+        if (_runWorker === undefined) {
+            _runWorker = require('btex').runWorker;
+        }
+        _runWorker(text, undefined, undefined, undefined)
+        .then(result => {
+            const diagnostics = [];
+            for (const err of result.errors) {
+                // code:LINE:COL MSG
+                const res = /^code:([0-9]+):([0-9]+) (.*)$/.exec(err);
+                if (res === null || res.length !== 4) {
+                    vscode.window.showErrorMessage(
+                        'Unknown btex error: ' + err
+                    );  // Most probably just "UNKNOWN"
+                    continue;
+                }
+                const pos = new vscode.Position(
+                    parseInt(res[1])-1,parseInt(res[2])-1
+                );
+                const range = new vscode.Range(pos, pos);
+                diagnostics.push(new vscode.Diagnostic(range, res[3]));
+            }
+            // Update errors (including clearing them)
+            PanelManager.diags.set(this.doc.uri, diagnostics);
+            // This guard prevents the contents from emptying.
+            if (result.html !== '' || result.errors.length === 0) {
+                if (printing) {
+                    const html = `<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <style>${cssFonts(x => x)}</style>
+    <link rel="stylesheet" href="katex/katex.min.css">
+    <link rel="stylesheet" href="banana.css">
+    <title>bTeX Preview</title>
+</head>
+<body>
+<div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'}>
+${result.html}
+</div>
+<script defer>
+    window.onfocus = () => {window.close();};
+    window.print();
+</script>
+</body>`;
+                    if (_serve === undefined) {
+                        _serve = require('./ServePrinting').serve;
+                    }
+                    _serve(html, PanelManager.extensionPath).then((port) => {
+                        vscode.env.openExternal(
+                            vscode.Uri.parse('http://localhost:' + port.toString())
+                        );
+                    });
+                }
+                this.render(result.html);
+            } else {
+                // If the user wants to print, stop them!
+                if (printing) {
+                    vscode.window.showErrorMessage(
+                        "Printing Empty File",
+                        {
+                            modal: true,
+                            detail: "The rendered result is empty, either because of error or your document is empty."
+                        }
+                    );
+                }
+            }
+        }).catch(reason => {
+            // This is probably error unexpected by the btex engine
+            vscode.window.showErrorMessage(reason);
+        });
+    }
+
+    initialize(): void {
+        const awvu = (...name: string[]) => this.panel.webview.asWebviewUri(
+            vscode.Uri.file(getResource(...name))
+        ).toString();  // shorthand for asWebviewUri.
         this.panel.webview.html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
-    <style>${src}</style>
+    <style>${cssFonts(awvu)}</style>
     <link rel="stylesheet" href="${awvu('katex', 'katex.min.css')}">
     <link rel="stylesheet" href="${awvu('banana.css')}">
     <title>bTeX Preview</title>
@@ -163,7 +206,6 @@ export class PanelManager implements vscode.Disposable {
       })();
     </script>
 </body>`;
-        this.compile();  // Update content
     }
 
     render(data: string): void {
@@ -177,7 +219,7 @@ export class PanelManager implements vscode.Disposable {
         this.panel.dispose();
     }
 
-    static compileCommand(): PanelManager | undefined {
+    static compileCommand(printing=false): PanelManager | undefined {
         // Get active document
         const doc = vscode.window.activeTextEditor?.document;
         if (doc === undefined) {
@@ -188,12 +230,16 @@ export class PanelManager implements vscode.Disposable {
         for (const pm of PanelManager.openPanels) {
             if (doc === pm.doc) {
                 pm.panel.reveal();
+                if (printing) {
+                    pm.compile(true);
+                }
                 return;
             }
         }
         // Spawn new panel
         const pm = new PanelManager(doc);
         PanelManager.openPanels.push(pm);
+        pm.compile(printing);
         return pm;
     }
 

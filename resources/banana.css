@@ -6,8 +6,7 @@ html {
 body {
     margin: 0;
     font-family: 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
-    /* font-family: var(--vscode-font-family); */
-    background-color: var(--vscode-editor-background)
+    background-color: var(--vscode-editor-background, #fff)
 }
 
 a {
@@ -23,7 +22,6 @@ a:visited {
     margin: 0 auto 0 auto;
     padding: 0px 30px 30px 30px;
     font-size: 18px;
-    /* font-family: var(--vscode-font-family); */
     font-family: PunctCJK, 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
     letter-spacing: .015em
 }
@@ -53,24 +51,24 @@ main {
 
 .b-page-body a[href],
 .b-page-body btex-link {
-    color: var(--vscode-textLink-foreground);
+    color: var(--vscode-textLink-foreground, #1088c8);
     text-decoration: none
 }
 
 .b-page-body a[href]:hover,
 .b-page-body a[href]:focus {
-    color: var(--vscode-textLink-activeForeground);
+    color: var(--vscode-textLink-activeForeground, #1088c8);
     text-decoration: none;
     outline: none
 }
 
 .b-page-body a[href].external {
-    color: var(--vscode-textLink-foreground);
+    color: var(--vscode-textLink-foreground, #1088c8);
 }
 
 .b-page-body a[href]:visited,
 .b-page-body a[href].external:visited {
-    color: var(--vscode-textLink-foreground);
+    color: var(--vscode-textLink-foreground, #1088c8);
 }
 
 .b-page-body a[href].external::after {
@@ -97,8 +95,7 @@ main {
 .b-page-body btex-link:focus,
 .b-page-body .btex-output a[href]:not(.image):hover,
 .b-page-body .btex-output a[href]:not(.image):focus {
-    /* border-bottom-color: #1088c850 */
-    border-bottom-color: var(--vscode-selection-background);
+    border-bottom-color: var(--vscode-selection-background, #1088c850);
 }
 
 .b-page-body h2 {
@@ -112,7 +109,7 @@ main {
     margin-right: .75em;
     font-weight: bold;
     padding: 4px 6px;
-    border-bottom: 4px solid var(--vscode-focusBorder);
+    border-bottom: 4px solid var(--vscode-focusBorder, #ffd000);
 }
 
 .b-page-body h3:not(#p-cactions-label) {
@@ -138,6 +135,7 @@ main {
     margin-right: 1em
 }
 
+/* TODO Table of contents */
 .b-page-body .toc {
     min-width: 10em;
     border: 0;
@@ -172,12 +170,11 @@ main {
 
 .b-page-body code,
 .b-page-body pre {
-    /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif; */
-    font-family: var(--vscode-editor-font-family);
+    font-family: var(--vscode-editor-font-family, 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif);
     border: none;
-    background-color: var(--vscode-textCodeBlock-background);
+    background-color: var(--vscode-textCodeBlock-background, #f4f6f8);
     line-height: 1.4;
-    color: var(--vscode-editor-foreground);
+    color: var(--vscode-editor-foreground, #666);
     font-size: 90%
 }
 
@@ -194,8 +191,7 @@ main {
 }
 
 .b-page-body .identifier {
-    /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif; */
-    font-family: var(--vscode-editor-font-family);
+    font-family: var(--vscode-editor-font-family, 'Cascadia Code','Consolas','Microsoft YaHei UI','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans CN',sans-serif);
     font-size: 90%
 }
 
@@ -279,8 +275,7 @@ main {
 }
 
 .b-page-body td.mw-enhanced-rc {
-    /* font-family: 'Cascadia Code', 'Consolas', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif */
-    font-family: var(--vscode-editor-font-family);
+    font-family: var(--vscode-editor-font-family, 'Cascadia Code','Consolas','Microsoft YaHei UI','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans CN',sans-serif);
 }
 
 .katex {
@@ -325,8 +320,8 @@ main {
 .btex-output .block {
     padding: .8em 1.2em;
     margin: 0 0 1em 0;
-    background-color: var(--vscode-textBlockQuote-background);
-    border-color: var(--vscode-textBlockQuote-border);
+    background-color: var(--vscode-textBlockQuote-background, #f4f6f8);
+    border-color: var(--vscode-textBlockQuote-border, #c0c4c8);
     border-left: 3px solid
 }
 
@@ -442,7 +437,7 @@ main {
 /* TODO theorem styles here */
 
 .btex-output .block.style-a {
-    background: var(--vscode-textBlockQuote-background);
+    background: var(--vscode-textBlockQuote-background, #f4fcff);
     border-color: #a0e0ff
 }
 
@@ -459,7 +454,7 @@ main {
 }
 
 .btex-output .block.style-b {
-    background: var(--vscode-textBlockQuote-background);
+    background: var(--vscode-textBlockQuote-background, #fffdf0);
     border-color: #ffd880
 }
 
@@ -476,7 +471,7 @@ main {
 }
 
 .btex-output .block.style-c {
-    background: var(--vscode-textBlockQuote-background);
+    background: var(--vscode-textBlockQuote-background, #f2faf2);
     border-color: #a0e0a0
 }
 
@@ -493,8 +488,8 @@ main {
 }
 
 .btex-output .block.quotation {
-    background: var(--vscode-textBlockQuote-background);
-    border-color: var(--vscode-textBlockQuote-border);
+    background: var(--vscode-textBlockQuote-background, #c0c4c8);
+    border-color: var(--vscode-textBlockQuote-border, #606468);
 }
 
 .btex-output .proof,
@@ -583,7 +578,9 @@ span.btex-diagram .katex span.rlap {
     .b-page-body {
         box-shadow: none;
         padding: 0;
-        font-size: 12px
+        font-size: 12px;
+        width: calc(100% - 120px);
+        padding: 100px 60px 60px 60px;
     }
 
     h1,h2,h3,h4 {
