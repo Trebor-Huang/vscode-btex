@@ -1,0 +1,11 @@
+{
+    "Begin/End block": {
+        "prefix": "\\begin",
+        "body": [
+            "\\begin{$1}",
+            "$2",
+            "\\end{$1}"
+        ],
+        "description": "Create a begin/end pair"
+    }
+}

@@ -59,6 +59,12 @@
                 }
             }
         ],
+        "snippets": [
+            {
+              "language": "btex",
+              "path": "./resources/snippets.json"
+            }
+        ],
         "configuration": {
             "title": "Btex",
             "properties": {
