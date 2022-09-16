@@ -1,8 +1,9 @@
 # Change Log
 
-## 0.1.3
+## 0.2
 
 - You can now export to PDF or print directly.
+- Added simple snippets.
 
 ## 0.1.2
 
