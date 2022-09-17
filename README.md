@@ -4,8 +4,7 @@ VSCode integration for [bTeX](https://github.com/banana-space/btex).
 
 ![Demo](demo/demo.gif)
 
-Use the "Compile and preview bTeX" command in the command palette to start. The
-rendered content will update on save. The "Export bTeX to PDF/printer" command
+Use the "Compile and preview bTeX" button in the editor navigation bar to start. The rendered content will update on save. The "Export bTeX to PDF/printer" button
 will open a browser with a printing dialog. After you choose a suitable
 configuration, you can either print or export to PDF.
 

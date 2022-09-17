@@ -1,6 +1,10 @@
 # Change Log
 
-## 0.2
+## 0.2.1
+
+- Added buttons for better UX.
+
+## 0.2.0
 
 - You can now export to PDF or print directly.
 - Added simple snippets.
