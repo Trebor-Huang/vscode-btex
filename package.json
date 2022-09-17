@@ -10,7 +10,8 @@
         "vscode": "^1.68.0"
     },
     "categories": [
-        "Other"
+        "Snippets",
+        "Programming Languages"
     ],
     "activationEvents": [
         "onLanguage:btex"
@@ -20,17 +21,35 @@
         "commands": [
             {
                 "command": "vscode-btex.compile",
-                "title": "Compile and preview bTeX"
+                "title": "Compile and preview bTeX",
+                "shortTitle": "Preview",
+                "icon": "$(open-preview)"
             },
             {
                 "command": "vscode-btex.export",
-                "title": "Export bTeX to PDF/printer"
+                "title": "Export bTeX to PDF/printer",
+                "shortTitle": "Export",
+                "icon": "$(rocket)"
             },
             {
                 "command": "vscode-btex.restart",
                 "title": "Restart tikz2svg server"
             }
         ],
+        "menus": {
+            "editor/title": [
+                {
+                    "command": "vscode-btex.compile",
+                    "group": "navigation",
+                    "when": "editorLangId == btex"
+                },
+                {
+                    "command": "vscode-btex.export",
+                    "group": "navigation",
+                    "when": "editorLangId == btex"
+                }
+            ]
+        },
         "languages": [
             {
                 "id": "btex",
