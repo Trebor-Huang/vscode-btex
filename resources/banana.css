@@ -542,11 +542,7 @@ span.btex-diagram {
 }
 
 #render-content[invert-all] .katex {
-    color: #000
-}
-
-#render-content[invert-all] .display-math,
-#render-content[invert-all] .inline-math {
+    color: #000;
     filter: invert(1);
     mix-blend-mode: difference
 }

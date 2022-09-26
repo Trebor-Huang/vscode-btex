@@ -217,6 +217,15 @@ ${result.html}
 
     static set isInvertAll(value: boolean) {
         PanelManager._isInvertAll = value;
+        for (const pm of PanelManager.openPanels) {
+            pm.panel.webview.postMessage({
+                isInvertAll: value
+            });
+        }
+    }
+
+    static get isInvertAll() {
+        return PanelManager._isInvertAll;
     }
 
     dispose(): void {
