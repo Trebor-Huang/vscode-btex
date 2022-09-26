@@ -569,6 +569,28 @@ span.btex-diagram .katex span.rlap {
     user-select: none
 }
 
+.wikitable {
+    background-color: var(--vscode-editor-background, #f8f9fa);
+    color: var(--vscode-foreground, #202122);
+    margin: 1em 0;
+    border: 1px solid var(--vscode-tree-tableColumnsBorder, #a2a9b1);
+    border-collapse: collapse
+}
+
+.wikitable > tr > th,.wikitable > tr > td,.wikitable > * > tr > th,.wikitable > * > tr > td {
+    border: 1px solid var(--vscode-tree-tableColumnsBorder, #a2a9b1);
+    padding: 0.2em 0.4em
+}
+
+.wikitable > tr > th,.wikitable > * > tr > th {
+    background-color: var(--vscode-list-inactiveSelectionBackground, #eaecf0);
+    text-align: center
+}
+
+.wikitable > caption {
+    font-weight: bold
+}
+
 /* Update when https://github.com/banana-space/banana-space/issues/7 is resolved */
 @media print {
     .b-nav-wrapper,#siteNotice,.content__before-header,.content__namespaces-actions,footer {
