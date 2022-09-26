@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.2
+
+- Fixed #13 and #14.
+- Added styling for tables.
+
 ## 0.2.1
 
 - Added buttons for better UX.
