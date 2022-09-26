@@ -110,13 +110,13 @@
             }
         },
         {
-            "beforeText": "\\s*\\*\\s*$",
+            "beforeText": "^\\s*\\*\\s*$",
             "action": {
                 "indent": "none"
             }
         },
         {
-            "beforeText": "\\s*\\* .*$",
+            "beforeText": "^\\s*\\* .*$",
             "action": {
                 "indent": "none",
                 "appendText": "* "
