@@ -60,7 +60,7 @@ function getResource(...name: string[]) {
 export class PanelManager implements vscode.Disposable {
     readonly doc: vscode.TextDocument;
     readonly panel: vscode.WebviewPanel;
-    static isInvertAll : boolean = false;
+    private static _isInvertAll : boolean = false;
     static extensionPath: string;
     static diags: vscode.DiagnosticCollection;
     static openPanels: PanelManager[] = [];
@@ -213,6 +213,10 @@ ${result.html}
             html : data,
             isInvertAll : PanelManager.isInvertAll
         });
+    }
+
+    static set isInvertAll(value: boolean) {
+        PanelManager._isInvertAll = value;
     }
 
     dispose(): void {

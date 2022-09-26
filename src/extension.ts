@@ -57,6 +57,9 @@ export function activate(context: vscode.ExtensionContext) {
         )
         // Register language features...
     );
+    // Get settings
+    const config = vscode.workspace.getConfiguration('btex');
+    PanelManager.isInvertAll = config.get('invertAll') ?? false;
 
     server.startServer();
 }
