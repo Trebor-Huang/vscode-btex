@@ -209,6 +209,7 @@ ${result.html}
     }
 
     render(data: string): void {
+        // TODO titles, display titles, etc.
         this.panel.webview.postMessage({
             html : data,
             isInvertAll : PanelManager.isInvertAll

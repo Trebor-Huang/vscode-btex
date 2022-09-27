@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.3
+
+- Math formulae now overflows vertically. This may be problematic for some cases, but I don't see that yet.
+
 ## 0.2.2
 
 - Fixed #13 and #14.
