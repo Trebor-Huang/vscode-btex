@@ -608,4 +608,9 @@ span.btex-diagram .katex span.rlap {
     .nomobile {
         display: none
     }
+
+    .btex-output span.display-math span.katex-display {
+        overflow-x: visible;
+        overflow-y: visible;
+    }
 }
