@@ -420,7 +420,7 @@ main {
 .btex-output span.display-math span.katex-display {
     flex-grow: 1;
     overflow-x: auto;
-    overflow-y: visible
+    overflow-y: hidden
 }
 
 .btex-output span.display-math span.equation-tag-left,
@@ -609,7 +609,7 @@ span.btex-diagram .katex span.rlap {
         display: none
     }
 
-    .btex-output span.display-math span.katex-display {
+    /* .btex-output span.display-math span.katex-display {
         overflow-x: visible;
-    }
+    } */
 }
