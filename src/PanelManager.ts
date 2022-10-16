@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
 import { serve } from './ServePrinting';  // Actually lazy loaded
 import { runWorker } from 'btex';
 var _runWorker : typeof runWorker;
@@ -94,8 +93,20 @@ export class PanelManager implements vscode.Disposable {
         if (_runWorker === undefined) {
             _runWorker = require('btex').runWorker;
         }
-        _runWorker(text, undefined, undefined, undefined)
+        _runWorker(text, '' /* TODO: Preamble */, {
+            maxErrors: 100,
+            maxMacroExpansions: 50000,
+            maxBuffer: 1000000,
+            maxNesting: 1000,
+            inline: false,
+            equationMode: false,
+          }, {
+            inverseSearch: true,
+            noKatex: false
+          })
         .then(result => {
+            // Contains lang, htmlTitle, displayTitle (displayTitle not used yet)
+            const data = JSON.parse(result.data);
             const diagnostics = [];
             for (const err of result.errors) {
                 // code:LINE:COL MSG
@@ -108,7 +119,7 @@ export class PanelManager implements vscode.Disposable {
                 }
                 const pos = new vscode.Position(
                     parseInt(res[1])-1,parseInt(res[2])-1
-                );
+                );  // TODO better position
                 const range = new vscode.Range(pos, pos);
                 diagnostics.push(new vscode.Diagnostic(range, res[3]));
             }
@@ -123,9 +134,9 @@ export class PanelManager implements vscode.Disposable {
     <style>${cssFonts(x => x)}</style>
     <link rel="stylesheet" href="katex/katex.min.css">
     <link rel="stylesheet" href="banana.css">
-    <title>bTeX Preview</title>
+    <title>${data.htmlTitle ?? ''}</title>
 </head>
-<body>
+<body lang="${data.lang ?? 'zh'}">
 <div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'}>
 ${result.html}
 </div>
