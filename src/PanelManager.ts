@@ -56,16 +56,34 @@ function getResource(...name: string[]) {
     return path.join(PanelManager.extensionPath, 'resources', ...name);
 }
 
+async function gotoPosition(editor: vscode.TextEditor, position: number) {
+    await vscode.window.showTextDocument(editor.document, editor.viewColumn);
+    await vscode.commands.executeCommand(
+        'revealLine',
+        {
+            lineNumber: position - 1,
+            at: 'center'
+        }
+    );
+    const r = editor.document.lineAt(position-1).range;
+    editor.selection = new vscode.Selection(
+        r.start, r.end
+    );
+}
+
 export class PanelManager implements vscode.Disposable {
     readonly doc: vscode.TextDocument;
+    readonly editor: vscode.TextEditor;
     readonly panel: vscode.WebviewPanel;
     private static _isInvertAll : boolean = false;
+    private listener ?: vscode.Disposable;
     static extensionPath: string;
     static diags: vscode.DiagnosticCollection;
     static openPanels: PanelManager[] = [];
 
-    constructor(doc: vscode.TextDocument) {
-        this.doc = doc;
+    constructor(editor: vscode.TextEditor) {
+        this.editor = editor;
+        this.doc = editor.document;
         this.panel = vscode.window.createWebviewPanel(
             'bTeXpreview',
             'Preview bTeX',
@@ -88,7 +106,6 @@ export class PanelManager implements vscode.Disposable {
     }
 
     compile(printing=false): void {
-        // TODO inverse Search
         const text = this.doc.getText();
         if (_runWorker === undefined) {
             _runWorker = require('btex').runWorker;
@@ -119,7 +136,7 @@ export class PanelManager implements vscode.Disposable {
                 }
                 const pos = new vscode.Position(
                     parseInt(res[1])-1,parseInt(res[2])-1
-                );  // TODO better position
+                );  // TODO better position (doc.getWordRangeAtPosition)
                 const range = new vscode.Range(pos, pos);
                 diagnostics.push(new vscode.Diagnostic(range, res[3]));
             }
@@ -195,9 +212,22 @@ ${result.html}
       (function(){
         const vscode = acquireVsCodeApi();
         const bdy = document.getElementById("render-content");
+        async function updateSearch () {
+            for (const sp of bdy.getElementsByTagName("span")) {
+                if (sp.hasAttribute('data-pos')) {
+                    sp.addEventListener('dblclick', event => {
+                        vscode.postMessage({
+                            position: sp.getAttribute('data-pos')
+                        });
+                    });
+                }
+            }
+        }
         function updatebTeX(data) {
             if ('html' in data) {
                 bdy.innerHTML = data.html;
+                // Inverse search
+                updateSearch();
             } else {
                 data.html = bdy.innerHTML;
             }
@@ -213,10 +243,13 @@ ${result.html}
         }
         window.addEventListener('message', event => {
             updatebTeX(event.data);
-        })
+        });
       })();
     </script>
 </body>`;
+        this.listener = this.panel.webview.onDidReceiveMessage(data => {
+            gotoPosition(this.editor, data.position);
+        });
     }
 
     render(data: string): void {
@@ -241,19 +274,20 @@ ${result.html}
     }
 
     dispose(): void {
+        this.listener?.dispose();
         this.panel.dispose();
     }
 
     static compileCommand(printing=false): PanelManager | undefined {
         // Get active document
-        const doc = vscode.window.activeTextEditor?.document;
-        if (doc === undefined) {
+        const editor = vscode.window.activeTextEditor;
+        if (editor === undefined) {
             vscode.window.showErrorMessage("No active text editor found.");
             return;
         }
         // Check old panels
         for (const pm of PanelManager.openPanels) {
-            if (doc === pm.doc) {
+            if (editor.document === pm.doc) {
                 pm.panel.reveal();
                 if (printing) {
                     pm.compile(true);
@@ -262,7 +296,7 @@ ${result.html}
             }
         }
         // Spawn new panel
-        const pm = new PanelManager(doc);
+        const pm = new PanelManager(editor);
         PanelManager.openPanels.push(pm);
         pm.compile(printing);
         return pm;

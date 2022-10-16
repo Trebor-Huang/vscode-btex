@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.0
+
+- Added inverse search.
+- HTML titles are reflected.
+
 ## 0.2.4
 
 - Reverted the overflow fix. It's not going to be solved soon.
