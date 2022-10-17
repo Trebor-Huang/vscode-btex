@@ -56,18 +56,21 @@ function getResource(...name: string[]) {
     return path.join(PanelManager.extensionPath, 'resources', ...name);
 }
 
-async function gotoPosition(editor: vscode.TextEditor, position: number) {
+async function gotoPosition(editor: vscode.TextEditor, position: number[]) {
     await vscode.window.showTextDocument(editor.document, editor.viewColumn);
+    if (position.length === 0) {
+        return;
+    }
     await vscode.commands.executeCommand(
         'revealLine',
         {
-            lineNumber: position - 1,
+            lineNumber: position[0] - 1,
             at: 'center'
         }
     );
-    const r = editor.document.lineAt(position-1).range;
     editor.selection = new vscode.Selection(
-        r.start, r.end
+        editor.document.lineAt(position[0]-1).range.start,
+        editor.document.lineAt(position[position.length-1]-1).range.end
     );
 }
 
@@ -247,9 +250,15 @@ ${result.html}
       })();
     </script>
 </body>`;
-        this.listener = this.panel.webview.onDidReceiveMessage(data => {
-            gotoPosition(this.editor, data.position);
-        });
+        this.listener = this.panel.webview.onDidReceiveMessage(
+            (data : {position: string}) => {
+                gotoPosition(
+                    this.editor,
+                    data.position.split(',').map(
+                        str => parseInt(str)
+                    )
+                );
+            });
     }
 
     render(data: string): void {
