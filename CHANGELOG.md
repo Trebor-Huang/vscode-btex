@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.1
+
+- Formulas may return multiple lines when inverse searching.
+
 ## 0.3.0
 
 - Added inverse search.
