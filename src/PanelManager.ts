@@ -125,8 +125,11 @@ export class PanelManager implements vscode.Disposable {
             noKatex: false
           })
         .then(result => {
-            // Contains lang, htmlTitle, displayTitle (displayTitle not used yet)
-            const data = JSON.parse(result.data);
+            const data : {
+                lang ?: string,
+                htmlTitle ?: string,
+                displayTitle ?: string
+            } = JSON.parse(result.data);
             const diagnostics = [];
             for (const err of result.errors) {
                 // code:LINE:COL MSG
@@ -154,7 +157,7 @@ export class PanelManager implements vscode.Disposable {
     <style>${cssFonts(x => x)}</style>
     <link rel="stylesheet" href="katex/katex.min.css">
     <link rel="stylesheet" href="banana.css">
-    <title>${data.htmlTitle ?? ''}</title>
+    <title>${data.htmlTitle ?? 'Preview bTeX'}</title>
 </head>
 <body lang="${data.lang ?? 'zh'}">
 <div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'}>
@@ -174,7 +177,7 @@ ${result.html}
                         );
                     });
                 }
-                this.render(result.html);
+                this.render(result.html, data);
             } else {
                 // If the user wants to print, stop them!
                 if (printing) {
@@ -203,7 +206,6 @@ ${result.html}
     <style>${cssFonts(awvu)}</style>
     <link rel="stylesheet" href="${awvu('katex', 'katex.min.css')}">
     <link rel="stylesheet" href="${awvu('banana.css')}">
-    <title>bTeX Preview</title>
 </head>
 <body>
     <div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'}>
@@ -238,6 +240,7 @@ ${result.html}
                 bdy.toggleAttribute('invert-all');
                 bdy.toggleAttribute('invert-only');
             }
+            bdy.setAttribute('lang', data.data.lang ?? 'zh');
             vscode.setState(data);
         }
         const previousState = vscode.getState();
@@ -261,10 +264,15 @@ ${result.html}
             });
     }
 
-    render(data: string): void {
-        // TODO titles, display titles, etc.
+    render(content: string, data: {
+        lang?: string,
+        htmlTitle?: string,
+        displayTitle?: string
+    }): void {
+        this.panel.title = data.displayTitle ?? 'Preview';
         this.panel.webview.postMessage({
-            html : data,
+            html : content,
+            data : data,
             isInvertAll : PanelManager.isInvertAll
         });
     }
