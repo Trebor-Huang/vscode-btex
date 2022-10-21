@@ -56,8 +56,8 @@ function getResource(...name: string[]) {
     return path.join(PanelManager.extensionPath, 'resources', ...name);
 }
 
-async function gotoPosition(editor: vscode.TextEditor, position: number[]) {
-    await vscode.window.showTextDocument(editor.document, editor.viewColumn);
+async function gotoPosition(doc: vscode.TextDocument, col: vscode.ViewColumn, position: number[]) {
+    await vscode.window.showTextDocument(doc, col);
     if (position.length === 0) {
         return;
     }
@@ -68,7 +68,10 @@ async function gotoPosition(editor: vscode.TextEditor, position: number[]) {
             at: 'center'
         }
     );
-    editor = vscode.window.activeTextEditor ?? editor;
+    const editor = vscode.window.activeTextEditor;
+    if (editor === undefined) {
+        return;
+    }
     editor.selections = [new vscode.Selection(
         editor.document.lineAt(position[0]-1).range.start,
         editor.document.lineAt(position[position.length-1]-1).range.end
@@ -77,7 +80,7 @@ async function gotoPosition(editor: vscode.TextEditor, position: number[]) {
 
 export class PanelManager implements vscode.Disposable {
     readonly doc: vscode.TextDocument;
-    readonly editor: vscode.TextEditor;
+    readonly viewColumn: vscode.ViewColumn;
     readonly panel: vscode.WebviewPanel;
     private static _isInvertAll : boolean = false;
     private listener ?: vscode.Disposable;
@@ -86,7 +89,7 @@ export class PanelManager implements vscode.Disposable {
     static openPanels: PanelManager[] = [];
 
     constructor(editor: vscode.TextEditor) {
-        this.editor = editor;
+        this.viewColumn = editor.viewColumn ?? vscode.ViewColumn.Beside;
         this.doc = editor.document;
         this.panel = vscode.window.createWebviewPanel(
             'bTeXpreview',
@@ -257,7 +260,8 @@ ${result.html}
         this.listener = this.panel.webview.onDidReceiveMessage(
             (data : {position: string}) => {
                 gotoPosition(
-                    this.editor,
+                    this.doc,
+                    this.viewColumn,
                     data.position.split(',').map(
                         str => parseInt(str)
                     )
