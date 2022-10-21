@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.2
+
+- Fixed a bug that after switching to another text editor and back, inverse search stops working.
+- Displays `displayTitle`.
+
 ## 0.3.1
 
 - Formulas may return multiple lines when inverse searching.
