@@ -68,10 +68,11 @@ async function gotoPosition(editor: vscode.TextEditor, position: number[]) {
             at: 'center'
         }
     );
-    editor.selection = new vscode.Selection(
+    editor = vscode.window.activeTextEditor ?? editor;
+    editor.selections = [new vscode.Selection(
         editor.document.lineAt(position[0]-1).range.start,
         editor.document.lineAt(position[position.length-1]-1).range.end
-    );
+    )];
 }
 
 export class PanelManager implements vscode.Disposable {
