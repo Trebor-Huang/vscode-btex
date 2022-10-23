@@ -254,6 +254,11 @@ ${result.html}
         window.addEventListener('message', event => {
             updatebTeX(event.data);
         });
+        document.addEventListener('mousedown', function(event) {
+            if (event.detail === 2) {
+              event.preventDefault();
+            }
+        }, false);
       })();
     </script>
 </body>`;
