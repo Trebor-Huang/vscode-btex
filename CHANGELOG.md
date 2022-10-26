@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.3
+
+- Miscellaneous improvements.
+
 ## 0.3.2
 
 - Fixed a bug that after switching to another text editor and back, inverse search stops working.
