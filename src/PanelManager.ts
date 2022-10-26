@@ -5,6 +5,20 @@ import { runWorker } from 'btex';
 var _runWorker : typeof runWorker;
 var _serve : typeof serve;
 
+const PREAMBLE = ''; // TODO
+const COMPILER_SETTINGS = {  // compiler options
+    maxErrors: 100,
+    maxMacroExpansions: 50000,
+    maxBuffer: 1000000,
+    maxNesting: 1000,
+    inline: false,
+    equationMode: false,
+};
+const RENDER_SETTINGS = {  // rendering options
+    inverseSearch: true,
+    noKatex: false
+};
+
 // Generate CSS for fonts
 function cssFonts(awvu: (file : string) => string) {
     return `
@@ -117,17 +131,7 @@ export class PanelManager implements vscode.Disposable {
         if (_runWorker === undefined) {
             _runWorker = require('btex').runWorker;
         }
-        _runWorker(text, '' /* TODO: Preamble */, {
-            maxErrors: 100,
-            maxMacroExpansions: 50000,
-            maxBuffer: 1000000,
-            maxNesting: 1000,
-            inline: false,
-            equationMode: false,
-          }, {
-            inverseSearch: true,
-            noKatex: false
-          })
+        _runWorker(text, PREAMBLE, COMPILER_SETTINGS, RENDER_SETTINGS)
         .then(result => {
             const data : {
                 lang ?: string,
