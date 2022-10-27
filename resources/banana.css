@@ -71,7 +71,7 @@ main {
     color: var(--vscode-textLink-foreground, #1088c8);
 }
 
-.b-page-body a[href].external::after {
+/* .b-page-body a[href].external::after {
     background-image: var(--external-link-svg);
     background-size: .75em;
     width: .75em;
@@ -80,7 +80,7 @@ main {
     display: inline-block;
     content: '';
     background-repeat: no-repeat
-}
+} */
 
 .b-page-body btex-link:hover,
 .b-page-body btex-link:focus,

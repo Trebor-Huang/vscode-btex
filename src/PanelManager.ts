@@ -60,7 +60,8 @@ function cssFonts(awvu: (file : string) => string) {
     unicode-range: U+21-22, U+27-29, U+2C, U+2E, U+3A-3B, U+3F, U+2018-201A, U+201C-201E, U+2022, U+2026, U+2218, U+25AA-25AB, U+3001-3002, U+3008-300F, U+FF64
 }
 
-.b-page-body {
+.b-page-body,
+.b-page-body a[href].external::after {
     --external-link-svg: url(${awvu('external-link.svg')})
 }
 `;
