@@ -315,9 +315,7 @@ ${result.html}
         for (const pm of PanelManager.openPanels) {
             if (editor.document === pm.doc) {
                 pm.panel.reveal();
-                if (printing) {
-                    pm.compile(true);
-                }
+                pm.compile(printing);
                 return;
             }
         }
