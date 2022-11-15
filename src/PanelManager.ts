@@ -162,8 +162,8 @@ export class PanelManager implements vscode.Disposable {
     <link rel="stylesheet" href="banana.css">
     <title>${data.htmlTitle ?? 'Preview bTeX'}</title>
 </head>
-<body lang="${data.lang ?? 'zh'}">
-<div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'}>
+<body>
+<div id="render-content" class="b-page-body" ${PanelManager.isInvertAll ? 'invert-all' : 'invert-only'} lang="${data.lang ?? 'zh'}">
 ${result.html}
 </div>
 <script defer>
