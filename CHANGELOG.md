@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.5
+
+- Hopefully the color inverting function is functioning logically now.
+- Tweaked some CSS. Too much configurable elements seems to make the code messy.
+
 ## 0.3.3-4
 
 - Miscellaneous improvements.
