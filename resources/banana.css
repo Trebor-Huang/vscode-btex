@@ -23,7 +23,7 @@ a:visited {
     margin: 0 auto 0 auto;
     padding: 0px 30px 30px 30px;
     font-size: 18px;
-    font-family: PunctCJK, var(--main-latin-font, 'Noto Sans'), Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
+    font-family: PunctCJK, 'Noto Sans', Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Source Han Sans CN', sans-serif;
     letter-spacing: .015em
 }
 
@@ -593,7 +593,7 @@ span.btex-diagram .katex span.rlap {
         padding: 0;
         font-size: 12px;
         width: calc(100% - 120px);
-        padding: 100px 60px 60px 60px;
+        padding: 50px 60px 60px 60px;
     }
 
     h1,h2,h3,h4 {
