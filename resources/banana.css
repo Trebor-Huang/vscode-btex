@@ -593,7 +593,7 @@ span.btex-diagram .katex span.rlap {
         padding: 0;
         font-size: 12px;
         width: calc(100% - 120px);
-        padding: 50px 60px 60px 60px;
+        padding: 0px 60px 60px 60px;
     }
 
     h1,h2,h3,h4 {
