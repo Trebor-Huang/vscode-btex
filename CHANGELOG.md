@@ -1,7 +1,12 @@
 # Change Log
 
-## 0.3.5
+## 0.3.7
 
+- Tweaked CSS, prevented page break in TikZ diagrams.
+
+## 0.3.6
+
+- Accidentally skipped a version
 - Hopefully the color inverting function is functioning logically now.
 - Tweaked some CSS. Too much configurable elements seems to make the code messy.
 
