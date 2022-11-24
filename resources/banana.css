@@ -596,6 +596,10 @@ span.btex-diagram .katex span.rlap {
         padding: 0px 60px 60px 60px;
     }
 
+    .tikz-in-math {
+        page-break-inside: avoid;
+    }
+
     h1,h2,h3,h4 {
         font-weight: normal
     }
