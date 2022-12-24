@@ -530,16 +530,18 @@ span.btex-diagram {
     display: inline-block
 }
 
-#render-content span.btex-diagram >svg.overlay,
-#render-content span.tikz-in-math >svg {
-    filter: invert(1);
-    mix-blend-mode: difference;
-}
+@media not print {
+    #render-content span.btex-diagram >svg.overlay,
+    #render-content span.tikz-in-math >svg {
+        filter: invert(1);
+        mix-blend-mode: difference;
+    }
 
-#render-content[invert-all] .katex {
-    color: #000;
-    filter: invert(1);
-    mix-blend-mode: difference
+    #render-content[invert-all] .katex {
+        color: #000;
+        filter: invert(1);
+        mix-blend-mode: difference
+    }
 }
 
 span.btex-diagram span.cell,
