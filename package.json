@@ -130,6 +130,6 @@
         "typescript": "^4.7.2"
     },
     "dependencies": {
-        "btex": "banana-space/btex#dist"
+        "btex": "banana-space/btex.git#685c9548645022506a601e62ee25d6914e2c8433"
     }
 }
