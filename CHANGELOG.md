@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.8-12
+
+- Upstream problems.
+
 ## 0.3.7
 
 - Tweaked CSS, prevented page break in TikZ diagrams.
