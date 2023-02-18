@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.13-14
+
+- Fixed the problem where $\vec A$ doesn't show.
+
 ## 0.3.8-12
 
 - Upstream problems.
