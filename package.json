@@ -13,9 +13,7 @@
         "Snippets",
         "Programming Languages"
     ],
-    "activationEvents": [
-        "onLanguage:btex"
-    ],
+    "activationEvents": [],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [

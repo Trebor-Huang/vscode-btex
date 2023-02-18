@@ -238,6 +238,10 @@ main {
     max-width: 100%
 }
 
+.b-page-body span.display-math .overlay > svg {
+    max-width: none;
+}
+
 .b-page-body .warningbox {
     margin: 0 0 16px 0;
     border: 0;
