@@ -31,7 +31,8 @@ configuration, you can either print or export to PDF.
 - If there is an error "tikz2svg server exited with code 1 and signal null", it is most probably because there is another program (possibly another tikz2svg server) running, using the port 9292.
   - If you can still render tikz pictures, and you are sure you didn't start a tikz2svg server yourself, then this is because vscode failed to shut down the tikz2svg server last time. You can use the extension normally, and manually kill the tikz2svg server when you don't need it.
   - If you cannot render tikz pictures, check out which process is using the 9292 port, either terminate it or convince it to use another port instead.
-- Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either. Similarly wiki-style links will show up as blue but don't link anywhere.
+- Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either. Similarly wiki-style links will show up as blue but don't link anywhere. This means that images (which currently uses MediaWiki syntax) doesn't work. I might try to implement that, or I can get some separate image mechanics in.
 - Collapsible proofs do not work (yet) because it requires more javascript machinery.
+- Currently the released version uses a custom version of bananaTeX not recorded in `package.json` because the PR hasn't been merged yet, will fix when merged.
 
 ## Release Notes
