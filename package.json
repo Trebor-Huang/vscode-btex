@@ -116,6 +116,7 @@
     "devDependencies": {
         "@types/glob": "^8.0.0",
         "@types/katex": "^0.14.0",
+        "@types/yargs": "^17.0.15",
         "@types/mocha": "^9.1.1",
         "@types/node": "16.x",
         "@types/vscode": "^1.68.0",
