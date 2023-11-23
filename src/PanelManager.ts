@@ -163,7 +163,7 @@ export class PanelManager implements vscode.Disposable {
                 let img_replacer = (match:string, opt:string, src:string, offset:any, string:any, group:any) => {
                     console.log(src)
                     let new_src = "";
-                    if(/^https?:\/\/\w/.test(src) || /^data:image\/(\w);base64/.test(src))
+                    if(/^https?:\/\/\w/.test(src) || /^data:image\/(.*);base64/.test(src))
                     {
                         // web image or inline image
                         new_src = src;
