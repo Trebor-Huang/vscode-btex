@@ -16,6 +16,7 @@ configuration, you can either print or export to PDF.
 - [X] Inverse search.
 - [X] Compiles the bTeX file and show the preview on save.
 - [X] Exports the result to PDF or printer.
+- [X] Use `\includegraphics{relative path}` to include graphics in the workspace folder. Weblinks and base64-encoded URIs are also accepted.
 
 ## Requirements
 
@@ -33,6 +34,7 @@ configuration, you can either print or export to PDF.
   - If you cannot render tikz pictures, check out which process is using the 9292 port, either terminate it or convince it to use another port instead.
 - Wiki templates do not work, because they are stored on wiki servers. I'm not going to implement local wiki templates either. Similarly wiki-style links will show up as blue but don't link anywhere. This means that images (which currently uses MediaWiki syntax) doesn't work. I might try to implement that, or I can get some separate image mechanics in.
 - Collapsible proofs do not work (yet) because it requires more javascript machinery.
-- Currently the released version uses a custom version of bananaTeX not recorded in `package.json` because the PR hasn't been merged yet, will fix when merged.
+- `\includegraphics` doesn't work in formulas.
+- Inverse search doesn't work with graphics. A workaround is to click on elements close to them, e.g. captions.
 
 ## Release Notes

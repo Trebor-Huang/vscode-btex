@@ -1,11 +1,15 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { serve } from './ServePrinting';  // Actually lazy loaded
+import * as fs from 'fs';
+// Type only imports
+import { Buffer } from 'buffer';
+// Lazy loaded imports
+import { serve } from './ServePrinting';
 import { runWorker } from 'btex';
 var _runWorker : typeof runWorker;
 var _serve : typeof serve;
 
-const PREAMBLE = ''; // TODO
+const PREAMBLE = '\\enableincludegraphics'; // TODO
 const COMPILER_SETTINGS = {  // compiler options
     maxErrors: 100,
     maxMacroExpansions: 50000,
@@ -89,6 +93,7 @@ async function gotoPosition(doc: vscode.TextDocument, col: vscode.ViewColumn, po
 
 export class PanelManager implements vscode.Disposable {
     readonly doc: vscode.TextDocument;
+    readonly workspaceFolder: string;
     readonly viewColumn: vscode.ViewColumn;
     readonly panel: vscode.WebviewPanel;
     private static _isInvertAll : boolean = false;
@@ -100,6 +105,7 @@ export class PanelManager implements vscode.Disposable {
     constructor(editor: vscode.TextEditor) {
         this.viewColumn = editor.viewColumn ?? vscode.ViewColumn.Beside;
         this.doc = editor.document;
+        this.workspaceFolder = vscode.workspace.workspaceFolders? vscode.workspace.workspaceFolders[0].uri.path : "/";
         this.panel = vscode.window.createWebviewPanel(
             'bTeXpreview',
             'Preview bTeX',
@@ -107,7 +113,10 @@ export class PanelManager implements vscode.Disposable {
             {
                 localResourceRoots: [
                     vscode.Uri.file(
-                        path.join(PanelManager.extensionPath, 'resources'))
+                        path.join(PanelManager.extensionPath, 'resources')),
+                    vscode.Uri.file(
+                        this.workspaceFolder
+                    )
                 ],
                 enableScripts: true
             }
@@ -133,7 +142,7 @@ export class PanelManager implements vscode.Disposable {
                 htmlTitle ?: string,
                 displayTitle ?: string
             } = JSON.parse(result.data);
-            const diagnostics = [];
+            const diagnostics : vscode.Diagnostic[]=[];
             for (const err of result.errors) {
                 // code:LINE:COL MSG
                 const res = /^code:([0-9]+):([0-9]+) (.*)$/.exec(err);
@@ -153,6 +162,37 @@ export class PanelManager implements vscode.Disposable {
             PanelManager.diags.set(this.doc.uri, diagnostics);
             // This guard prevents the contents from emptying.
             if (result.html !== '' || result.errors.length === 0) {
+                let img_replacer = (match:string, opt:string, src:string, offset:any, string:any, group:any) => {
+                    console.log(src)
+                    let new_src = "";
+                    if(/^https?:\/\/\w/.test(src) || /^data:image\/(.*);base64/.test(src))
+                    {
+                        // web image or inline image
+                        new_src = src;
+                    }
+                    else if(/^(\w+\\)*.\w/.test(src))
+                    {
+                        // TODO add image extension verification and error handling
+                        // relative dir
+                        if(printing)
+                        {
+                            let dir = path.join(this.workspaceFolder, src);
+                            let ext = path.extname(dir).substring(1);
+                            let base64Image = "";
+                            let buf:Buffer = fs.readFileSync(dir);
+                            base64Image = buf.toString('base64');
+                            new_src = `data:image/${ext};base64,${base64Image}`; 
+                        }
+                        else {
+                            new_src = this.panel.webview.asWebviewUri(vscode.Uri.file(path.join(this.workspaceFolder, src))).toString();
+                        }
+                    }
+                    return `<img${opt}src="${new_src}"`;
+                }
+                const img_regex = /<img(.*?)src="(.*?)"/g;
+                let new_html = result.html.replace(img_regex, img_replacer);
+                result.html = new_html;
+
                 if (printing) {
                     const html = `<!DOCTYPE html>
 <head>
