@@ -1,13 +1,15 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { serve } from './ServePrinting';  // Actually lazy loaded
+// Type only imports
 import { Buffer } from 'buffer';
+// Lazy loaded imports
+import { serve } from './ServePrinting';
 import { runWorker } from 'btex';
 var _runWorker : typeof runWorker;
 var _serve : typeof serve;
 
-const PREAMBLE = ''; // TODO
+const PREAMBLE = '\\enableincludegraphics'; // TODO
 const COMPILER_SETTINGS = {  // compiler options
     maxErrors: 100,
     maxMacroExpansions: 50000,
