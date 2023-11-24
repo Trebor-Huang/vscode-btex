@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.16
+
+- Bump btex version.
+- Implement `\includegraphics`
+
 ## 0.3.15
 
 - Upstream problems.
